@@ -1,6 +1,10 @@
 # Ansible101
 Para mayor facilidad exportaremos nuestro paquete mediante `pip`.
 
+
+<details>
+<summary><h2>Laboratorio - CLI</h2></summary>
+
 ## Estructura de carpeta
 ```
 lab
@@ -16,12 +20,8 @@ lab
 │   └── lab.py
 └── setup.py
 ```
-### Enlaces de interés
-- [Libreria click](https://click.palletsprojects.com/en/8.1.x/)
-- [click-completion](https://github.com/click-contrib/click-completion?tab=readme-ov-file)
-- [Packaging Projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
 
-## Creación de la interfaz
+## Creación de la interfaz CLI
 - [lab.py](./lab/packages/lab.py)
     - Las triple comilla doble (`"""`) se utilizan en Python para definir cadenas de texto multilínea. En el contexto de las funciones de Click (la biblioteca que estás utilizando para la interfaz de línea de comandos), estas cadenas de texto multilínea se utilizan como documentación de ayuda para los comandos.
 - [setup.py](./lab/setup.py)
@@ -36,17 +36,34 @@ lab
 ## Entorno de pruebas
 ``` shell
 # Creamos entorno virtual para pruebas
-python3 -m venv .test # .test -> nombre del entorno a crear
+python3 -m venv pyenv # pyenv -> nombre del entorno a crear (puede ser una carpeta oculta .pyenv)
 ```
 - `-m venv`: Utiliza el módulo venv que viene incluido en la biblioteca estándar de Python para crear un entorno virtual.
-- `.venv`: Especifica el nombre del directorio donde se creará el entorno virtual. En este caso, se ha elegido el nombre `.venv`, pero puedes usar otro nombre si lo prefieres.
+- `pyenv`: Especifica el nombre del directorio donde se creará el entorno virtual. En este caso, se ha elegido el nombre `pyenv`, pero puedes usar otro nombre si lo prefieres.
 ``` shell
 . pyenv/bin/activate
 ```
-- `.`: El primer punto (.) es un comando de la shell que se utiliza para ejecutar el script de activación. Este script se encuentra en el directorio `.venv/bin/` y se llama `activate`.
+- `.`: El primer punto (.) es un comando de la shell que se utiliza para ejecutar el script de activación. Este script se encuentra en el directorio `pyenv/bin/` y se llama `activate`.
 - `pyenv/bin/activate`: Es la ruta al script de activación del entorno virtual. Cuando ejecutas este comando, activa el entorno virtual y configura tu sesión de shell para usar la versión de Python y las herramientas del entorno virtual.
 
 ```shell
 # Instalamos nuestro paquete
 pip install --editable . 
 ```
+</details>
+
+
+
+<details>
+<summary><h2>Laboratorio - Web</h2></summary>
+
+## Estructura de carpeta
+
+</details>
+
+
+
+### Enlaces de interés
+- [Libreria click](https://click.palletsprojects.com/en/8.1.x/)
+- [click-completion](https://github.com/click-contrib/click-completion?tab=readme-ov-file)
+- [Packaging Projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
