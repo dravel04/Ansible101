@@ -1,0 +1,29 @@
+# Archivos de Python
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de __pycache__
+__pycache__/
+
+# Archivos de setup
+setup.pyc
+setup.py~
+
+# Archivos de lab.egg-info
+lab.egg-info/
+
+# Archivos de pyenv
+pyenv/
+
+# Archivos de .git
+.gitignore~
+
+# Otros archivos
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.ds_store
+*.DS_Store
