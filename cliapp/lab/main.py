@@ -1,7 +1,7 @@
 import click
 # from click_completion import init
 
-from packages import grade_func
+from lab.grade import grade_func
 
 # Inicializa la extensión de autocompletación de Click
 # init()
