@@ -7,11 +7,9 @@ authors = [
 ]
 requires-python = ">=3.8" # Establece la versión mínima de Python. Importante.
 dependencies = [         # Corresponde a 'install_requires='
-    "Click",
+    "Typer",
+    # "typing_extensions",
     # "click-completion", # Descomenta si lo usas realmente
-    # Añade aquí cualquier otra dependencia que necesites, por ejemplo:
-    # "rich",
-    # "pyyaml",
 ]
 
 [project.scripts]
@@ -19,7 +17,7 @@ dependencies = [         # Corresponde a 'install_requires='
 # 'lab' es el nombre del comando que se creará y que el usuario ejecutará.
 # 'packages.lab:cli' es la ruta al módulo (packages/lab.py) y la función (cli)
 # que se debe llamar cuando se ejecute 'lab'.
-lab = "lab.main:cli"
+lab = "lab.main:app"
 
 [build-system]
 # Esto le dice a las herramientas de construcción de Python (como pip)

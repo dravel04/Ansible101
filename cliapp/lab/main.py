@@ -1,37 +1,40 @@
-import click
-# from click_completion import init
+import typer
+from typing_extensions import Annotated
 
 from lab.grade import grade_func
 
-# Inicializa la extensión de autocompletación de Click
-# init()
+# Typer usa un objeto Typer principal en lugar de @appck.group()
+app = typer.Typer(help="Un app para tus herramientas de laboratorio.") # Puedes añadir una descripción general
 
-CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+@app.command()
+def start(
+    # Un argumento posicional se define simplemente con el tipo
+    # y typer.Argument() si quieres añadir metadatos (como la ayuda)
+    exercisename: Annotated[str, typer.Argument(help="Nombre del ejercicio a iniciar.")]
+):
+    """
+    Inicia las dependencias del ejercicio correspondiente.
+    """
+    typer.echo(f"Iniciando ejercicio: {exercisename}") # typer.echo es el equivalente a appck.echo
 
-@click.group(context_settings=CONTEXT_SETTINGS)
-def cli():
-    pass
-
-@cli.command()
-# @click.argument('exercisename', autocompletion=None)
-@click.argument('exercisename')
-def start(exercisename):
-    """Inicia las dependencias del ejercicio correspondiente."""
-    click.echo(f"Iniciando ejercicio: {exercisename}")
-
-@cli.command()
-# @click.argument('exercisename', autocompletion=None)
-@click.argument('exercisename')
-def grade(exercisename):
-    """Evalua el ejercicio correspondiente"""
+@app.command()
+def grade(
+    exercisename: Annotated[str, typer.Argument(help="Nombre del ejercicio a evaluar.")]
+):
+    """
+    Evalua el ejercicio correspondiente
+    """
     grade_func(exercisename)
 
-@cli.command()
-# @click.argument('exercisename', autocompletion=None)
-@click.argument('exercisename')
-def finish(exercisename):
-    """Libera las dependencias del ejercicio correspondiente"""
-    click.echo(f"Fininalizando ejercicio: {exercisename}")
+@app.command()
+def finish(
+    exercisename: Annotated[str, typer.Argument(help="Nombre del ejercicio a finalizar.")]
+):
+    """
+    Libera las dependencias del ejercicio correspondiente
+    """
+    typer.echo(f"Fininalizando ejercicio: {exercisename}")
 
 if __name__ == '__main__':
-    cli()
+    # En lugar de app(), llamas a la instancia de Typer
+    app()

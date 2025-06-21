@@ -1,8 +1,8 @@
-import click
+import typer
 from importlib import import_module
 
 def grade_func(exercisename):
-    click.echo(f"Evaluando el ejercicio: {exercisename}")
+    typer.echo(f"Evaluando el ejercicio: {exercisename}")
 
     # Importa el script correspondiente dinámicamente
     script_module_name = f"lab.grade.scripts.grade_{exercisename.lower()}"
@@ -10,5 +10,5 @@ def grade_func(exercisename):
         script_module = import_module(script_module_name)
         script_module.run()
     except ImportError:
-        click.echo(f"Fallo durante la evaluacion de {exercisename}. No se encontró el script scripts.grade_{exercisename.lower()}.py")
+        typer.echo(f"Fallo durante la evaluacion de {exercisename}. No se encontró el script scripts.grade_{exercisename.lower()}.py")
         return
