@@ -32,6 +32,8 @@ pyenv/
 
 # build output
 dist/
+build/
+lab.spec
 
 # generated types
 .astro/

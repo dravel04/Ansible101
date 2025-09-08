@@ -1,4 +1,4 @@
-from lab.grade.scripts.functions import run_validations
+from lab.grade.grade_functions import run_validations
 
 def restore_password():
     return False
