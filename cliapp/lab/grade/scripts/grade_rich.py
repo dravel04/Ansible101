@@ -14,14 +14,15 @@ def run():
   ]
 
   min_line_width = 60
-  console.print("[bold]Iniciando chequeos del ejercicio...[/bold]")
+  console.print("\nIniciando chequeos del ejercicio...", highlight=False)
 
   for i, check_text in enumerate(checks):
     with Live(
-      f"  {check_text.ljust(min_line_width - 5, '.')}",
+      # renderable=f"  [yellow]·[/yellow] {check_text.ljust(min_line_width - 5, '.')}",
+      renderable=Text("  -> ", style="bold yellow") + Text(check_text.ljust(min_line_width - 5, '.'), style="default"),
       console=console,
       refresh_per_second=8,
-      transient=True
+      transient=True,
     ) as live:
       time.sleep(1 + (i * 0.2))
       success = (i % 2 == 0)
@@ -30,15 +31,17 @@ def run():
       if success:
         live.console.print(
           f"  [bold blue]·[/bold blue] {check_text.ljust(min_line_width - 5, '.')}",
-          Text("OK", style="bold green")
+          Text("OK", style="bold green"),
+          highlight=False
         )
       else:
         live.console.print(
           f"  [bold blue]·[/bold blue] {check_text.ljust(min_line_width - 5, '.')}",
-          Text("ERROR", style="bold red")
+          Text("ERROR", style="bold red"),
+          highlight=False
         )
 
-  console.print("\n[bold green]Todos los chequeos completados.[/bold green]")
+  console.print("\nTodos los chequeos completados")
 
 if __name__ == "__main__":
   run()
