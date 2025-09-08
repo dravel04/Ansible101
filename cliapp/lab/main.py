@@ -10,21 +10,23 @@ app = typer.Typer(help="Un app para tus herramientas de laboratorio.") # Puedes 
 def start(
     # Un argumento posicional se define simplemente con el tipo
     # y typer.Argument() si quieres añadir metadatos (como la ayuda)
-    exercisename: Annotated[str, typer.Argument(help="Nombre del ejercicio a iniciar.")]
+    exercisename: Annotated[str, typer.Argument(help="Nombre del ejercicio a iniciar")]
 ):
     """
-    Inicia las dependencias del ejercicio correspondiente.
+    Inicia las dependencias del ejercicio correspondiente
     """
     typer.echo(f"Iniciando ejercicio: {exercisename}") # typer.echo es el equivalente a appck.echo
 
+
 @app.command()
 def grade(
-    exercisename: Annotated[str, typer.Argument(help="Nombre del ejercicio a evaluar.")]
+    exercisename: Annotated[str, typer.Argument(help="Nombre del ejercicio a evaluar")]
 ):
     """
     Evalua el ejercicio correspondiente
     """
     grade_func(exercisename)
+
 
 @app.command()
 def finish(
@@ -34,6 +36,7 @@ def finish(
     Libera las dependencias del ejercicio correspondiente
     """
     typer.echo(f"Fininalizando ejercicio: {exercisename}")
+
 
 if __name__ == '__main__':
     # En lugar de app(), llamas a la instancia de Typer

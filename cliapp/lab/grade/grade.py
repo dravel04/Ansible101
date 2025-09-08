@@ -2,7 +2,7 @@ import typer
 from importlib import import_module
 
 def grade_func(exercisename):
-    typer.echo(f"Evaluando el ejercicio: {exercisename}")
+    typer.echo(f"Evaluando el ejercicio: {exercisename}\n")
 
     # Importa el script correspondiente dinámicamente
     script_module_name = f"lab.grade.scripts.grade_{exercisename.lower()}"
