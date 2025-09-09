@@ -1,4 +1,3 @@
-
 from rich.text import Text
 from rich.console import Console, Group
 from rich.spinner import Spinner
@@ -28,6 +27,7 @@ def check_exercise_status(failed, check_text, live_renderable):
 
 def run_validations(checks):
     console = Console()
+
     for check_text, check_fn in checks:
         spinner_line = Group(
             Spinner("dots", text=Text(check_text, style="default not bold"))
@@ -36,5 +36,5 @@ def run_validations(checks):
             failed = check_fn()
             check_exercise_status(failed, check_text, live)
 
-    console.print("\nValidación completada.", highlight=False)
+    console.print("\nValidación completada", highlight=False)
 
