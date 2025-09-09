@@ -1,8 +1,6 @@
 import typer
 from typing_extensions import Annotated
 
-from lab.grade import grade_func
-
 # Typer usa un objeto Typer principal en lugar de @appck.group()
 app = typer.Typer(help="Un app para tus herramientas de laboratorio.") # Puedes añadir una descripción general
 
@@ -25,6 +23,7 @@ def grade(
     """
     Evalua el ejercicio correspondiente
     """
+    from lab.grade import grade_func
     grade_func(exercisename)
 
 

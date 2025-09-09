@@ -34,6 +34,9 @@ pyenv/
 dist/
 build/
 lab.spec
+main.build
+main.dist
+main.onefile-build
 
 # generated types
 .astro/

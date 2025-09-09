@@ -6,9 +6,6 @@ from rich.text import Text
 from rich.live import Live
 import time
 
-console = Console()
-
-
 def check_exercise_status(failed, check_text, live_renderable):
     # Mostrar el spinner durante la "validación"
     time.sleep(2)
@@ -30,7 +27,7 @@ def check_exercise_status(failed, check_text, live_renderable):
 
 
 def run_validations(checks):
-
+    console = Console()
     for check_text, check_fn in checks:
         spinner_line = Group(
             Spinner("dots", text=Text(check_text, style="default not bold"))

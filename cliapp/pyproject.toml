@@ -22,5 +22,19 @@ lab = "lab.main:app"
 [build-system]
 # Esto le dice a las herramientas de construcción de Python (como pip)
 # cómo construir tu proyecto. Setuptools es el backend de construcción.
-requires = ["setuptools>=61.0"] # Asegúrate de que tienes una versión de Setuptools compatible
-build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0", "wheel", "nuitka", "toml"]
+# build-backend = "setuptools.build_meta"
+build-backend = "nuitka.distutils.Build"
+
+# Data files are to be handled by setuptools and not Nuitka
+# [tool.setuptools.package-data]
+# some_package = ['data_file.txt']
+
+[tool.nuitka]
+standalone = true
+onefile = true
+show-scons = true
+
+# options with several values, e.g. avoid including modules, accepts
+# list argument.
+# nofollow-import-to = ["*.tests", "*.distutils"]
