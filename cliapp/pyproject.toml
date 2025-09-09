@@ -1,40 +1,46 @@
 [project]
-name = "lab"
-version = "1.0.0"
-description = "CLI para la gestión de ejercicios de laboratorio de un curso Ansible."
+# Información general del proyecto
+name = "lab"  # Nombre del proyecto. Usado para empaquetado e instalación.
+version = "1.0.0"  # Versión actual del proyecto.
+description = "CLI para la gestión de ejercicios de laboratorio de un curso Ansible."  # Descripción corta.
 authors = [
-  { name = "Tu Nombre", email = "tu.email@example.com" }
+  { name = "Rafael Marín", email = "tu.email@example.com" }
 ]
-requires-python = ">=3.8" # Establece la versión mínima de Python. Importante.
-dependencies = [         # Corresponde a 'install_requires='
-    "Typer",
-    # "typing_extensions",
-    # "click-completion", # Descomenta si lo usas realmente
+# Versión mínima de Python requerida.
+requires-python = ">=3.8"
+
+# Dependencias del proyecto (equivalente a install_requires en setuptools)
+dependencies = [
+    "typer=0.17.4",
+    "typing_extensions==4.15.0",
+    "rich==14.1.0",
 ]
 
 [project.scripts]
-# Corresponde a 'entry_points' -> 'console_scripts'
-# 'lab' es el nombre del comando que se creará y que el usuario ejecutará.
-# 'packages.lab:cli' es la ruta al módulo (packages/lab.py) y la función (cli)
-# que se debe llamar cuando se ejecute 'lab'.
+# Define los scripts de consola que se instalan con el paquete.
+# 'lab' será el comando que el usuario ejecuta en la terminal.
+# 'lab.main:app' indica el módulo (lab/main.py) y la función Typer (app) que se llama.
 lab = "lab.main:app"
 
 [build-system]
-# Esto le dice a las herramientas de construcción de Python (como pip)
-# cómo construir tu proyecto. Setuptools es el backend de construcción.
-requires = ["setuptools>=61.0", "wheel", "nuitka", "toml"]
-# build-backend = "setuptools.build_meta"
+# Información necesaria para construir el paquete.
+requires = [               # Herramientas necesarias para construirlo
+  "setuptools==61.0",      # Backend clásico de empaquetado Python
+  "wheel",                 # Para generar archivos .whl
+  "nuitka==2.7.14",        # Compilador para convertir Python en binario
+  "toml",                  # Parser para pyproject.toml
+]
+# build-backend indica qué herramienta se usa para construir
 build-backend = "nuitka.distutils.Build"
 
-# Data files are to be handled by setuptools and not Nuitka
+# Opcional: secciones de datos adicionales para setuptools
 # [tool.setuptools.package-data]
 # some_package = ['data_file.txt']
 
 [tool.nuitka]
-standalone = true
-onefile = true
-show-scons = true
+standalone = true     # Genera un binario independiente con todas las dependencias
+onefile = true        # Produce un solo archivo ejecutable
+show-scons = true     # Muestra el output de SCons durante la compilación
 
-# options with several values, e.g. avoid including modules, accepts
-# list argument.
+# Otras opciones avanzadas (comentadas) para excluir ciertos módulos o tests
 # nofollow-import-to = ["*.tests", "*.distutils"]
