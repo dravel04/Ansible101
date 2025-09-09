@@ -7,11 +7,9 @@ authors = [
 ]
 requires-python = ">=3.8" # Establece la versión mínima de Python. Importante.
 dependencies = [         # Corresponde a 'install_requires='
-    "Click",
+    "Typer",
+    # "typing_extensions",
     # "click-completion", # Descomenta si lo usas realmente
-    # Añade aquí cualquier otra dependencia que necesites, por ejemplo:
-    # "rich",
-    # "pyyaml",
 ]
 
 [project.scripts]
@@ -19,10 +17,24 @@ dependencies = [         # Corresponde a 'install_requires='
 # 'lab' es el nombre del comando que se creará y que el usuario ejecutará.
 # 'packages.lab:cli' es la ruta al módulo (packages/lab.py) y la función (cli)
 # que se debe llamar cuando se ejecute 'lab'.
-lab = "lab.main:cli"
+lab = "lab.main:app"
 
 [build-system]
 # Esto le dice a las herramientas de construcción de Python (como pip)
 # cómo construir tu proyecto. Setuptools es el backend de construcción.
-requires = ["setuptools>=61.0"] # Asegúrate de que tienes una versión de Setuptools compatible
-build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0", "wheel", "nuitka", "toml"]
+# build-backend = "setuptools.build_meta"
+build-backend = "nuitka.distutils.Build"
+
+# Data files are to be handled by setuptools and not Nuitka
+# [tool.setuptools.package-data]
+# some_package = ['data_file.txt']
+
+[tool.nuitka]
+standalone = true
+onefile = true
+show-scons = true
+
+# options with several values, e.g. avoid including modules, accepts
+# list argument.
+# nofollow-import-to = ["*.tests", "*.distutils"]
