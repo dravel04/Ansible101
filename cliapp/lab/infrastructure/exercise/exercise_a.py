@@ -1,4 +1,4 @@
-# lab/exercise/exercise_a.py
+# lab/infrastructure/exercise/exercise_a.py
 from lab.exercise.exercise import Exercise
 from lab.infrastructure.ui.console_utils import run_with_spinner
 
