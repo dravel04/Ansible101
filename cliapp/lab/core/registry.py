@@ -2,8 +2,8 @@
 import pkgutil       # Para iterar sobre modulos en un paquete
 import importlib     # Para importar modulos dinamicamente por nombre
 import inspect       # Para inspeccionar objetos (clases, funciones) dentro de un modulo
-# from lab.core.entities.exercise import Exercise
-# from lab.core.entities.grader import Grader
+from lab.core.entities.exercise import Exercise
+from lab.core.entities.grader import Grader
 import lab.infrastructure.exercise, lab.infrastructure.grader
 
 EXERCISES = {}
@@ -26,11 +26,11 @@ def auto_discover_exercises():
         module = importlib.import_module(f"lab.infrastructure.exercise.{module_name}")
         # Recorremos todos los miembros del modulo y filtramos solo clases
         for _, obj in inspect.getmembers(module, inspect.isclass):
-            EXERCISES[module_name.replace('e_', '')] = obj
             # Comprobamos si la clase hereda de Exercise y no es la clase base Exercise
-            # if issubclass(obj, Exercise) and obj is not Exercise:
+            if issubclass(obj, Exercise) and obj is not Exercise:
                 # Guardamos la clase en el diccionario con clave simplificada
                 # Por ejemplo: 'e_a' -> 'a'
+                EXERCISES[module_name.replace('e_', '')] = obj
 
 # -----------------------------------------
 # Funcion para descubrir automaticamente todos los graders
@@ -48,9 +48,9 @@ def auto_discover_graders():
         module = importlib.import_module(f"lab.infrastructure.grader.{module_name}")
         # Recorremos todos los miembros del modulo y filtramos solo clases
         for _, obj in inspect.getmembers(module, inspect.isclass):
-            GRADERS[module_name.replace('g_', '')] = obj
             # Comprobamos si la clase hereda de Grader y no es la clase base Grader
-            # if issubclass(obj, Grader) and obj is not Grader:
+            if issubclass(obj, Grader) and obj is not Grader:
                 # Guardamos la clase en el diccionario con clave simplificada
                 # Por ejemplo: 'g_a' -> 'a'
+                GRADERS[module_name.replace('g_', '')] = obj
     

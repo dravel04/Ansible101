@@ -32,8 +32,6 @@ flowchart TB
 
 ---
 
-### 🔹 Explicación del diagrama
-
 - **main.py / CLI Entry**
   + Solo coordina la ejecución, invoca servicios o entidades según el comando.
 
@@ -47,4 +45,17 @@ flowchart TB
 
 - **External Tools**
   + Librerías externas usadas por infrastructure y main (Rich, logging).
+
+### Mejoras
+- En modo DEBUG, si varios mensajes tienen el mismo timestamp, agruparlos:
+```python
+prefix = Text(" " * len(f"[{datetime.now().strftime("%m/%d/%y %H:%M:%S")}]"), style="default")
+instance.debug_msg.append(
+  Text.assemble(
+    prefix,
+    (" DEBUG    ", "green"),
+    (msg, "default"),
+  )
+)
+```
 

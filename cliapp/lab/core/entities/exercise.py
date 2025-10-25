@@ -1,9 +1,10 @@
-# lab/exercise/exercise.py
+# lab/core/entities/exercise.py
 from abc import ABC, abstractmethod
 
 class Exercise(ABC):
     def __init__(self, name: str):
         self.name = name
+        self.debug_msg = []
 
     @abstractmethod
     def start(self):

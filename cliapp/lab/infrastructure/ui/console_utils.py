@@ -3,10 +3,22 @@ from rich.console import Console, Group
 from rich.spinner import Spinner
 from rich.text import Text
 from rich.live import Live
-import time
+from datetime import datetime
 
-def check_status(failed, check_text, live_renderable):
+def append_msg_with_datatime(instance, msg, last=False):
+    instance.debug_msg.append(
+        Text.assemble(
+            (f"[{datetime.now().strftime('%m/%d/%y %H:%M:%S')}]", "dim cyan"),
+            (" DEBUG    ", "green"),
+            (msg, "default"),
+        )
+    )
+    if last:
+        instance.debug_msg.append('')
+
+def check_status(failed, error_output, check_text):
     # Mostrar el spinner durante la "validacion"
+    import time
     time.sleep(2)
 
     # Al terminar, mostrar texto plano con el resultado
@@ -15,17 +27,17 @@ def check_status(failed, check_text, live_renderable):
             Text("FAILED\t", style="red")
             + Text(check_text, style="default bold")
         )
+        final_text.append(Text(f"\n{error_output}", style="italic yellow"))
     else:
         final_text = (
             Text("SUCCESS\t", style="green")
             + Text(check_text, style="default bold")
         )
 
-    live_renderable.update(final_text)
-    return True
+    return final_text
 
 
-def run_with_spinner(action, checks):
+def run_with_spinner(action, checks, instance):
     console = Console()
     failed = False
 
@@ -33,9 +45,20 @@ def run_with_spinner(action, checks):
         spinner_line = Group(
             Spinner("dots", text=Text(check_text, style="default not bold"))
         )
-        with Live(spinner_line, console=console, refresh_per_second=10) as live:
-            failed = check_fn()
-            check_status(failed, check_text, live)
+        with Live(console=console, refresh_per_second=10) as live:
+            live.update(spinner_line)
+            failed,error_output = check_fn()
+            final_text = check_status(failed,error_output, check_text)
+            if instance.debug_msg:
+                group = Group(
+                        final_text,
+                        *[line for line in instance.debug_msg],
+                    )
+                instance.debug_msg.clear()
+                live.update(group)
+            else:
+                live.update(final_text)
+            
             if failed:
                 break
 
