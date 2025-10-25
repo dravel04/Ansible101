@@ -8,10 +8,10 @@ class Exercise(ABC):
 
     @abstractmethod
     def start(self):
-        """Inicializa dependencias y recursos específicos del ejercicio."""
+        """Inicializa dependencias y recursos especificos del ejercicio."""
         pass
 
     @abstractmethod
     def finish(self):
-        """Libera recursos y hace limpieza específica del ejercicio."""
+        """Libera recursos y hace limpieza especifica del ejercicio."""
         pass

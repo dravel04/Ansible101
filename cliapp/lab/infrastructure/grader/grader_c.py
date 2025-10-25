@@ -27,5 +27,5 @@ class GraderC(Grader):
             ("Verifying network connectivity",self.verify_connectivity),
             ("Installing required packages",self.install_packages),
         ]
-        print(f"Comezamos la validación del ejericio '{self.exercisename}'\n")
+        print(f"Comezamos la validacion del ejericio '{self.exercisename}'\n")
         run_with_spinner('grader',checks)

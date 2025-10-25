@@ -1,7 +1,7 @@
 # lab/core/registry.py
-import pkgutil       # Para iterar sobre módulos en un paquete
-import importlib     # Para importar módulos dinámicamente por nombre
-import inspect       # Para inspeccionar objetos (clases, funciones) dentro de un módulo
+import pkgutil       # Para iterar sobre modulos en un paquete
+import importlib     # Para importar modulos dinamicamente por nombre
+import inspect       # Para inspeccionar objetos (clases, funciones) dentro de un modulo
 from lab.core.entities.exercise import Exercise
 from lab.core.entities.grader import Grader
 import lab.infrastructure.exercise, lab.infrastructure.grader
@@ -10,21 +10,21 @@ EXERCISES = {}
 GRADERS = {}
 
 # -----------------------------------------
-# Función para descubrir automáticamente todos los ejercicios
+# Funcion para descubrir automaticamente todos los ejercicios
 # -----------------------------------------
 def auto_discover_exercises():
     """
-    Recorre todos los módulos dentro de lab.infrastructure.exercise y registra
+    Recorre todos los modulos dentro de lab.infrastructure.exercise y registra
     las clases que heredan de Exercise en el diccionario EXERCISES.
     
-    Clave del diccionario: nombre del módulo sin 'exercise_'
+    Clave del diccionario: nombre del modulo sin 'exercise_'
     Valor: clase correspondiente
     """
-    # pkgutil.iter_modules devuelve (loader, module_name, ispkg) para cada módulo
+    # pkgutil.iter_modules devuelve (loader, module_name, ispkg) para cada modulo
     for _, module_name, _ in pkgutil.iter_modules(lab.infrastructure.exercise.__path__):
-        # Importamos dinámicamente el módulo
+        # Importamos dinamicamente el modulo
         module = importlib.import_module(f"lab.infrastructure.exercise.{module_name}")
-        # Recorremos todos los miembros del módulo y filtramos solo clases
+        # Recorremos todos los miembros del modulo y filtramos solo clases
         for _, obj in inspect.getmembers(module, inspect.isclass):
             # Comprobamos si la clase hereda de Exercise y no es la clase base Exercise
             if issubclass(obj, Exercise) and obj is not Exercise:
@@ -33,20 +33,20 @@ def auto_discover_exercises():
                 EXERCISES[module_name.replace('exercise_', '')] = obj
 
 # -----------------------------------------
-# Función para descubrir automáticamente todos los graders
+# Funcion para descubrir automaticamente todos los graders
 # -----------------------------------------
 def auto_discover_graders():
     """
-    Recorre todos los módulos dentro de lab.infrastructure.grader y registra
+    Recorre todos los modulos dentro de lab.infrastructure.grader y registra
     las clases que heredan de Grader en el diccionario GRADERS.
     
-    Clave del diccionario: nombre del módulo sin 'grader_'
+    Clave del diccionario: nombre del modulo sin 'grader_'
     Valor: clase correspondiente
     """
     for _, module_name, _ in pkgutil.iter_modules(lab.infrastructure.grader.__path__):
-        # Importamos dinámicamente el módulo
+        # Importamos dinamicamente el modulo
         module = importlib.import_module(f"lab.infrastructure.grader.{module_name}")
-        # Recorremos todos los miembros del módulo y filtramos solo clases
+        # Recorremos todos los miembros del modulo y filtramos solo clases
         for _, obj in inspect.getmembers(module, inspect.isclass):
             # Comprobamos si la clase hereda de Grader y no es la clase base Grader
             if issubclass(obj, Grader) and obj is not Grader:

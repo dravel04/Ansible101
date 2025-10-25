@@ -2,10 +2,10 @@ from lab.core.entities.exercise import Exercise
 
 class ExerciseC(Exercise):
     def start(self):
-        # 🔹 lógica específica de este ejercicio
-        print(f"Iniciando {self.name} (lógica de ExerciseC)...")
+        # 🔹 logica especifica de este ejercicio
+        print(f"Iniciando {self.name} (logica de ExerciseC)...")
 
 
     def finish(self):
-        # 🔹 limpieza específica de este ejercicio
-        print(f"Finalizando {self.name} (lógica de ExerciseC)...")
+        # 🔹 limpieza especifica de este ejercicio
+        print(f"Finalizando {self.name} (logica de ExerciseC)...")

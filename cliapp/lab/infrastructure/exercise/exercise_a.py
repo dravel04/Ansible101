@@ -22,11 +22,11 @@ class ExerciseA(Exercise):
             ("Creating podman containers",self.create_containers),
             ("Installing required packages",self.install_packages),
         ]
-        # 🔹 lógica específica de este ejercicio
+        # 🔹 logica especifica de este ejercicio
         print(f"Iniciando {self.name}...\n")
         run_with_spinner('start', checks)
 
 
     def finish(self):
-        # 🔹 limpieza específica de este ejercicio
-        print(f"Finalizando {self.name} (lógica de ExerciseA)...")
+        # 🔹 limpieza especifica de este ejercicio
+        print(f"Finalizando {self.name} (logica de ExerciseA)...")

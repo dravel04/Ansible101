@@ -6,5 +6,5 @@ class Grader(ABC):
 
     @abstractmethod
     def grade(self):
-        """Ejecuta la lógica de evaluación del ejercicio"""
+        """Ejecuta la logica de evaluacion del ejercicio"""
         pass

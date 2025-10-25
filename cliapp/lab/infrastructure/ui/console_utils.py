@@ -6,7 +6,7 @@ from rich.live import Live
 import time
 
 def check_status(failed, check_text, live_renderable):
-    # Mostrar el spinner durante la "validación"
+    # Mostrar el spinner durante la "validacion"
     time.sleep(2)
 
     # Al terminar, mostrar texto plano con el resultado
@@ -37,4 +37,4 @@ def run_with_spinner(action, checks):
             check_status(failed, check_text, live)
 
     if action == 'grader':
-        console.print("\nValidación completada", highlight=False)
+        console.print("\nValidacion completada", highlight=False)

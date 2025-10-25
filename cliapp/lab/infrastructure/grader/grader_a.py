@@ -3,7 +3,7 @@ from lab.core.entities.grader import Grader
 from lab.infrastructure.ui.console_utils import run_with_spinner
 import logging
 
-# Configuración global del logger
+# Configuracion global del logger
 logger = logging.getLogger("lab")
 
 class GraderA(Grader):
@@ -19,5 +19,5 @@ class GraderA(Grader):
             ("Restoring the student user password",self.restore_password),
             ("Installing required packages",self.install_packages),
         ]
-        print(f"Comezamos la validación del ejericio '{self.exercisename}'\n")
+        print(f"Comezamos la validacion del ejericio '{self.exercisename}'\n")
         run_with_spinner('grader',checks)

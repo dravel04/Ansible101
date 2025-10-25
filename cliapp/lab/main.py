@@ -3,7 +3,7 @@ from typing_extensions import Annotated
 import logging
 from rich.logging import RichHandler
 
-# Configuración global del logger
+# Configuracion global del logger
 logger = logging.getLogger("lab")
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(message)s")
@@ -12,7 +12,8 @@ handler.setFormatter(formatter)
 handler.setLevel(logging.NOTSET)
 logger.addHandler(handler)
 
-app = typer.Typer(help="Un app para tus herramientas de laboratorio.") # Puedes añadir una descripción general
+# descripcion general
+app = typer.Typer(help="Un app para tus herramientas de laboratorio.") 
 
 @app.command()
 def start(
