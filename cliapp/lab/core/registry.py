@@ -2,12 +2,15 @@
 import pkgutil       # Para iterar sobre modulos en un paquete
 import importlib     # Para importar modulos dinamicamente por nombre
 import inspect       # Para inspeccionar objetos (clases, funciones) dentro de un modulo
+from pathlib import Path
+
 from lab.core.entities.exercise import Exercise
 from lab.core.entities.grader import Grader
 import lab.infrastructure.exercise, lab.infrastructure.grader
 
 EXERCISES = {}
 GRADERS = {}
+LAB_IMAGES = {}
 
 # -----------------------------------------
 # Funcion para descubrir automaticamente todos los ejercicios
@@ -53,4 +56,23 @@ def auto_discover_graders():
                 # Guardamos la clase en el diccionario con clave simplificada
                 # Por ejemplo: 'g_a' -> 'a'
                 GRADERS[module_name.replace('g_', '')] = obj
+
+def auto_discover_images(containerfile_dir=None):
+    """
+    Recorre todos los Containerfile en lab/infrastructure/containerfile/
+    y registra los tags e info necesaria en LAB_IMAGES.
     
+    Clave: nombre simplificado del containerfile sin extension
+    Valor: ruta del containerfile y tag de la imagen
+    """
+    containerfile_dir = containerfile_dir or Path(__file__).parent.parent / "infrastructure/containerfile"
+    
+    for containerfile_path in containerfile_dir.glob("*.Containerfile"):
+        name = containerfile_path.stem.replace(".Containerfile", "")  # nombre simplificado
+        tag = f"{name}:latest"  # puedes derivar el tag automáticamente o definir en un dict aparte
+        LAB_IMAGES[name] = {
+            "containerfile_path": containerfile_path,
+            "tag": tag
+        }
+
+    return LAB_IMAGES
