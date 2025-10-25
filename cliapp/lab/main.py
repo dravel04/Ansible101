@@ -1,7 +1,10 @@
 import typer
 from typing_extensions import Annotated
-import logging
 from rich.logging import RichHandler
+import logging
+
+# Variable global para guardar la instancia de Lab
+lab = None
 
 # Configuracion global del logger
 logger = logging.getLogger("lab")
@@ -14,6 +17,30 @@ logger.addHandler(handler)
 
 # descripcion general
 app = typer.Typer(help="Un app para tus herramientas de laboratorio.") 
+
+@app.command()
+def init(
+    # Un argumento posicional se define simplemente con el tipo
+    # y typer.Argument() si quieres añadir metadatos (como la ayuda)
+    engine: Annotated[str, typer.Argument(help="Container engine a usar")] = "docker",
+    debug: bool = typer.Option(False, "--debug", "-d", help="Activa el modo debug"),
+    force: bool = typer.Option(False, "--force", "-f", help="Fuerza la inicializacion de un nuevo lab")
+):
+    """
+    Inicia el laboratorio y sus dependencias
+    """
+    from lab.core.entities.lab import Lab
+    from lab.infrastructure.services.lab_service import LabService
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    exists,lab = Lab.load(force)
+    if not exists:
+        lab.engine=engine
+        lab.save()
+    print(lab.engine)
+    service = LabService(lab)
+    service.init()
+
 
 @app.command()
 def start(
@@ -40,6 +67,7 @@ def start(
         logger.setLevel(logging.DEBUG)
 
     # Creamos instancia de Exercise con el nombre pasado
+    # print(lab.engine)
     exercise = cls(exercisename)
     exercise.start()
 
