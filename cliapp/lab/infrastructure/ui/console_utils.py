@@ -27,6 +27,7 @@ def check_status(failed, check_text, live_renderable):
 
 def run_with_spinner(action, checks):
     console = Console()
+    failed = False
 
     for check_text, check_fn in checks:
         spinner_line = Group(
@@ -35,6 +36,10 @@ def run_with_spinner(action, checks):
         with Live(spinner_line, console=console, refresh_per_second=10) as live:
             failed = check_fn()
             check_status(failed, check_text, live)
+            if failed:
+                break
 
-    if action == 'grader':
+    if action == 'grader' and not failed:
         console.print("\nValidacion completada", highlight=False)
+
+    print("\n")

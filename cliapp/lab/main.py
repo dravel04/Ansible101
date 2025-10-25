@@ -39,7 +39,8 @@ def start(
     if debug:
         logger.setLevel(logging.DEBUG)
 
-    exercise = cls(f"Ejercicio {exercisename.upper()}")
+    # Creamos instancia de Exercise con el nombre pasado
+    exercise = cls(exercisename)
     exercise.start()
 
 
@@ -65,6 +66,7 @@ def grade(
     if debug:
         logger.setLevel(logging.DEBUG)
 
+    # Creamos instancia de Grader con el nombre pasado
     grader = cls(exercisename)
     grader.grade()
 
@@ -91,6 +93,7 @@ def finish(
     if debug:
         logger.setLevel(logging.DEBUG)
 
+    # Creamos instancia de Exercise con el nombre pasado
     exercise = cls(exercisename)
     exercise.finish()
 

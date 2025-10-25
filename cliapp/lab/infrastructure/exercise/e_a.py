@@ -1,7 +1,9 @@
-# lab/infrastructure/exercise/exercise_a.py
+# lab/infrastructure/exercise/e_a.py
 from lab.core.entities.exercise import Exercise
 from lab.infrastructure.ui.console_utils import run_with_spinner
+import logging
 
+logger = logging.getLogger("lab")
 
 class ExerciseA(Exercise):
 

@@ -1,6 +1,5 @@
 # lab/exercise/exercise.py
 from abc import ABC, abstractmethod
-from enum import Enum, auto
 
 class Exercise(ABC):
     def __init__(self, name: str):
