@@ -4,7 +4,6 @@ from pathlib import Path
 
 class Lab:
     CONFIG_PATH = Path.home() / ".lab_config.json"
-
     def __init__(self, engine: str = "docker"):
         self.engine = engine
 
@@ -24,4 +23,3 @@ class Lab:
         # '*' → Desempaqueta iterables (listas, tuplas, diccionarios) como argumentos posicionales. Si es un diccionario, solo toma las keys, no los values.
         # '**' → Desempaqueta un diccionario como argumentos por nombre, donde las keys deben coincidir con los nombres de los parámetros de la función y los values se asignan a esos parámetros.
         return exists, cls(**data)
-

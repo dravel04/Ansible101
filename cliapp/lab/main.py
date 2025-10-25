@@ -16,7 +16,10 @@ handler.setLevel(logging.NOTSET)
 logger.addHandler(handler)
 
 # descripcion general
-app = typer.Typer(help="Un app para tus herramientas de laboratorio.") 
+app = typer.Typer(
+    help="Un app para tus herramientas de laboratorio.",
+    context_settings={"help_option_names": ["-h", "--help"]}
+) 
 
 @app.command()
 def init(
@@ -29,18 +32,21 @@ def init(
     """
     Inicia el laboratorio y sus dependencias
     """
-    from lab.core.entities.lab import Lab
-    from lab.infrastructure.services.lab_service import LabService
-    if debug:
-        logger.setLevel(logging.DEBUG)
-    exists,lab = Lab.load(force)
-    if not exists:
-        lab.engine=engine
-        lab.save()
-    print(lab.engine)
-    service = LabService(lab)
-    service.init()
-
+    try:
+        from lab.core.entities.lab import Lab
+        from lab.infrastructure.services.lab_service import LabService
+        if debug:
+            logger.setLevel(logging.DEBUG)
+        exists,lab = Lab.load(force)
+        if not exists:
+            lab.engine=engine
+            lab.save()
+        else:
+            raise ValueError(f"Ya existe una instancia de Lab [engine={lab.engine}]. Para crear una nueva instancia, usar 'lab init <engine> -f' o borrar el fichero '~/.lab_config.json'")
+        service = LabService(lab)
+        service.init()
+    except Exception as e:
+        logger.error(f"{type(e).__name__}: {e}")
 
 @app.command()
 def start(
@@ -70,7 +76,6 @@ def start(
     # print(lab.engine)
     exercise = cls(exercisename)
     exercise.start()
-
 
 @app.command()
 def grade(
