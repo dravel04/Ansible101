@@ -9,8 +9,8 @@ logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(message)s")
 handler = RichHandler(rich_tracebacks=True)
 handler.setFormatter(formatter)
+handler.setLevel(logging.NOTSET)
 logger.addHandler(handler)
-
 
 app = typer.Typer(help="Un app para tus herramientas de laboratorio.") # Puedes añadir una descripción general
 
@@ -24,7 +24,8 @@ def start(
     """
     Inicia las dependencias del ejercicio correspondiente
     """
-    from lab.exercise import EXERCISES
+    from lab.core.registry import auto_discover_exercises, EXERCISES
+    auto_discover_exercises()
     cls = EXERCISES.get(exercisename.lower())
     if not cls:
         typer.secho(
@@ -37,7 +38,7 @@ def start(
     if debug:
         logger.setLevel(logging.DEBUG)
 
-    exercise = cls(exercisename)
+    exercise = cls(f"Ejercicio {exercisename.upper()}")
     exercise.start()
 
 
@@ -49,7 +50,8 @@ def grade(
     """
     Evalua el ejercicio correspondiente
     """
-    from lab.grader import GRADERS
+    from lab.core.registry import auto_discover_graders, GRADERS
+    auto_discover_graders()
     cls = GRADERS.get(exercisename.lower())
     if not cls:
         typer.secho(
@@ -74,7 +76,8 @@ def finish(
     """
     Libera las dependencias del ejercicio correspondiente
     """
-    from lab.exercise import EXERCISES
+    from lab.core.registry import auto_discover_exercises, EXERCISES
+    auto_discover_exercises()
     cls = EXERCISES.get(exercisename.lower())
     if not cls:
         typer.secho(

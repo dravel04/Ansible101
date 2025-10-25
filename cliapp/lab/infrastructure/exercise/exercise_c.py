@@ -1,4 +1,4 @@
-from lab.exercise.exercise import Exercise
+from lab.core.entities.exercise import Exercise
 
 class ExerciseC(Exercise):
     def start(self):

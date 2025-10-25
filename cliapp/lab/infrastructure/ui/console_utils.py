@@ -5,7 +5,7 @@ from rich.text import Text
 from rich.live import Live
 import time
 
-def check_exercise_status(failed, check_text, live_renderable):
+def check_status(failed, check_text, live_renderable):
     # Mostrar el spinner durante la "validación"
     time.sleep(2)
 
@@ -25,7 +25,7 @@ def check_exercise_status(failed, check_text, live_renderable):
     return True
 
 
-def run_validations(checks):
+def run_with_spinner(action, checks):
     console = Console()
 
     for check_text, check_fn in checks:
@@ -34,7 +34,7 @@ def run_validations(checks):
         )
         with Live(spinner_line, console=console, refresh_per_second=10) as live:
             failed = check_fn()
-            check_exercise_status(failed, check_text, live)
+            check_status(failed, check_text, live)
 
-    console.print("\nValidación completada", highlight=False)
-
+    if action == 'grader':
+        console.print("\nValidación completada", highlight=False)
