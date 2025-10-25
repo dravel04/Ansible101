@@ -1,6 +1,6 @@
 # lab/grader/grader_a.py
-from lab.grader.grader import Grader
-from lab.grader.utils import run_validations
+from lab.core.entities.grader import Grader
+from lab.infrastructure.ui.console_utils import run_with_spinner
 import logging
 
 # Configuración global del logger
@@ -20,4 +20,4 @@ class GraderA(Grader):
             ("Installing required packages",self.install_packages),
         ]
         print(f"Comezamos la validación del ejericio '{self.exercisename}'\n")
-        run_validations(checks)
+        run_with_spinner('grader',checks)

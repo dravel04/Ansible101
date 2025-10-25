@@ -9,8 +9,8 @@ logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(message)s")
 handler = RichHandler(rich_tracebacks=True)
 handler.setFormatter(formatter)
+handler.setLevel(logging.NOTSET)
 logger.addHandler(handler)
-
 
 app = typer.Typer(help="Un app para tus herramientas de laboratorio.") # Puedes añadir una descripción general
 
@@ -76,7 +76,8 @@ def finish(
     """
     Libera las dependencias del ejercicio correspondiente
     """
-    from lab.exercise import EXERCISES
+    from lab.core.registry import auto_discover_exercises, EXERCISES
+    auto_discover_exercises()
     cls = EXERCISES.get(exercisename.lower())
     if not cls:
         typer.secho(

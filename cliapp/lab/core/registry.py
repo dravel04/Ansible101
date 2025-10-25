@@ -2,9 +2,9 @@
 import pkgutil       # Para iterar sobre módulos en un paquete
 import importlib     # Para importar módulos dinámicamente por nombre
 import inspect       # Para inspeccionar objetos (clases, funciones) dentro de un módulo
-from lab.exercise.exercise import Exercise
-from lab.grader.grader import Grader
-import lab.exercise, lab.grader
+from lab.core.entities.exercise import Exercise
+from lab.core.entities.grader import Grader
+import lab.infrastructure.exercise, lab.infrastructure.grader
 
 EXERCISES = {}
 GRADERS = {}
@@ -14,16 +14,16 @@ GRADERS = {}
 # -----------------------------------------
 def auto_discover_exercises():
     """
-    Recorre todos los módulos dentro de lab.exercise y registra
+    Recorre todos los módulos dentro de lab.infrastructure.exercise y registra
     las clases que heredan de Exercise en el diccionario EXERCISES.
     
     Clave del diccionario: nombre del módulo sin 'exercise_'
     Valor: clase correspondiente
     """
     # pkgutil.iter_modules devuelve (loader, module_name, ispkg) para cada módulo
-    for _, module_name, _ in pkgutil.iter_modules(lab.exercise.__path__):
+    for _, module_name, _ in pkgutil.iter_modules(lab.infrastructure.exercise.__path__):
         # Importamos dinámicamente el módulo
-        module = importlib.import_module(f"lab.exercise.{module_name}")
+        module = importlib.import_module(f"lab.infrastructure.exercise.{module_name}")
         # Recorremos todos los miembros del módulo y filtramos solo clases
         for _, obj in inspect.getmembers(module, inspect.isclass):
             # Comprobamos si la clase hereda de Exercise y no es la clase base Exercise
@@ -37,15 +37,15 @@ def auto_discover_exercises():
 # -----------------------------------------
 def auto_discover_graders():
     """
-    Recorre todos los módulos dentro de lab.grader y registra
+    Recorre todos los módulos dentro de lab.infrastructure.grader y registra
     las clases que heredan de Grader en el diccionario GRADERS.
     
     Clave del diccionario: nombre del módulo sin 'grader_'
     Valor: clase correspondiente
     """
-    for _, module_name, _ in pkgutil.iter_modules(lab.grader.__path__):
+    for _, module_name, _ in pkgutil.iter_modules(lab.infrastructure.grader.__path__):
         # Importamos dinámicamente el módulo
-        module = importlib.import_module(f"lab.grader.{module_name}")
+        module = importlib.import_module(f"lab.infrastructure.grader.{module_name}")
         # Recorremos todos los miembros del módulo y filtramos solo clases
         for _, obj in inspect.getmembers(module, inspect.isclass):
             # Comprobamos si la clase hereda de Grader y no es la clase base Grader
@@ -53,3 +53,4 @@ def auto_discover_graders():
                 # Guardamos la clase en el diccionario con clave simplificada
                 # Por ejemplo: 'grader_a' -> 'a'
                 GRADERS[module_name.replace('grader_', '')] = obj
+    
