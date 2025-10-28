@@ -7,11 +7,14 @@ class Lab:
     VALID_ENGINES = ["docker", "podman"]
 
     def __init__(self, engine: str = "docker"):
-        # Regla de Dominio: validar el motor
-        if engine.lower() not in self.VALID_ENGINES:
-            raise ValueError(f"Motor '{engine}' no soportado por las reglas del Lab.") 
-        
-        self.engine = engine.lower()
+        self.engine = engine
 
-    # Se pueden añadir métodos para la lógica de negocio, ej:
-    # def register_exercise(self, name: str): ...
+    @property
+    def engine(self) -> str:
+        return self._engine
+
+    @engine.setter
+    def engine(self, value: str) -> None:
+        if value.lower() not in self.VALID_ENGINES:
+            raise ValueError(f"Solo se soportan '{self.VALID_ENGINES}' como motores del laboratorio")
+        self._engine = value.lower()

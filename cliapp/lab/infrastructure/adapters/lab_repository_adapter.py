@@ -1,9 +1,12 @@
+# lab/infrastructure/adapters/lab_repository_adapter.py
 import json
 from pathlib import Path
 from typing import Tuple
 from lab.core.entities.lab import Lab
+import logging
 
 LAB_CONFIG_PATH = Path.home() / ".lab_config.json"
+logger = logging.getLogger("lab")
 
 class LabRepositoryAdapter:
     
@@ -13,8 +16,13 @@ class LabRepositoryAdapter:
         if force or not LAB_CONFIG_PATH.exists():
             exists = False
             return exists, lab
+        logger.debug(f"Cargando configuración desde {LAB_CONFIG_PATH}")
+        try:
+            data = json.loads(LAB_CONFIG_PATH.read_text())
+        except json.JSONDecodeError:
+            logger.warning("Archivo de configuración inválido, recreando.")
+            return False, Lab()
         
-        data = json.loads(LAB_CONFIG_PATH.read_text())
         engine = data.get('engine')
         lab = Lab(engine=engine) 
         return exists,lab 

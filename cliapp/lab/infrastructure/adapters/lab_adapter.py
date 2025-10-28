@@ -7,4 +7,7 @@ logger = logging.getLogger("lab")
 class LabAdapter:
 
     def init(self, lab: Lab) -> None:
-        pass
+        if lab.engine == "docker":
+            # lógica docker
+            ...
+
