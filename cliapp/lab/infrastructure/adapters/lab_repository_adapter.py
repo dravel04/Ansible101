@@ -22,7 +22,6 @@ class LabRepositoryAdapter:
         except json.JSONDecodeError:
             logger.warning("Archivo de configuración inválido, recreando.")
             return False, Lab()
-        
         engine = data.get('engine')
         lab = Lab(engine=engine) 
         return exists,lab 
@@ -31,7 +30,10 @@ class LabRepositoryAdapter:
         """
         Persiste el estado actual de la entidad Lab recorriendo sus atributos.
         """
+        import inspect
         data = {}
-        for key, value in vars(lab).items():
-            data[key] = value
+        # for key, value in vars(lab).items():
+        #     data[key.replace('_','')] = value
+        for name, _ in inspect.getmembers(lab.__class__, lambda x: isinstance(x, property)):
+            data[name] = getattr(lab, name)
         LAB_CONFIG_PATH.write_text(json.dumps(data))
