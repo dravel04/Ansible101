@@ -1,33 +1,34 @@
-# lab/infrastructure/grader/g_c.py
-from lab.core.entities.grader import Grader
-from lab.infrastructure.ui.console_utils import run_with_spinner
-import logging
+# lab/infrastructure/grader/g_a.py
+from typing import Callable, Tuple
+from functools import partial
+# Importamos Puertos del Core
+from lab.core.interfaces.progress_notifier_port import ProgressNotifierPort
 
+import logging
 logger = logging.getLogger("lab")
 
-class GraderC(Grader):
-    def check_lab_systems(self):
-        return True
+# Definimos el tipo de la funcion de chequeo que vamos a pasar al notificador
+CheckFunc = Callable[[], Tuple[bool, str]]
 
+class GraderA:
 
-    def restore_password(self):
-        return False
+    def __init__(self, exercisename: str):
+        self.exercisename = exercisename
 
+    def _restore_password(self):
+        failed = False
+        error_output = "ERROR: No se puede conectar con el gestor de password"
+        return failed, error_output
 
-    def verify_connectivity(self):
-        return True
+    def _verify_packages(self):
+        failed = True
+        error_output = "ERROR: Falta el paquete 'hostname'"
+        return failed, error_output
 
-
-    def install_packages(self):
-        return False
-
-
-    def grade(self):
-        checks = [
-            ("Checking lab systems",self.check_lab_systems),
-            ("Restoring the student user password",self.restore_password),
-            ("Verifying network connectivity",self.verify_connectivity),
-            ("Installing required packages",self.install_packages),
+    def grade(self, notifier: ProgressNotifierPort) -> None:
+        checks: list[Tuple[str, CheckFunc]] = [
+            ("Creating exercise containers", self._restore_password),
+            ("Installing required packages", self._verify_packages),
+            # Añadir más checks...
         ]
-        print(f"Comezamos la validacion del ejericio '{self.exercisename}'\n")
-        run_with_spinner('grader',checks)
+        notifier.run_checks('grade', checks)
