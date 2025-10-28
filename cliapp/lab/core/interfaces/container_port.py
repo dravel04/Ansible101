@@ -1,10 +1,11 @@
 # lab/core/interfaces/container_port.py (AJUSTADO A PROTOCOL)
-from typing import Protocol, Tuple, Optional, Any # Añadimos 'Any' para el objeto genérico
+from typing import Protocol, Tuple, Optional, Any
 
 class ContainerPort(Protocol):
     """
     Define el contrato para la gestion de contenedores.
     """
+    engine: str
     def run_container(
         self,
         image: str,
@@ -19,8 +20,8 @@ class ContainerPort(Protocol):
     def remove_container(
         self,
         name: str,
-    ) -> Tuple[str, bool, str]:
+    ) -> Tuple[bool, str]:
         """
-        Elimina un contenedor y devuelve (output: str, failed: bool, error_message: str).
+        Elimina un contenedor y devuelve (failed: bool, error_message: str).
         """
         ...
