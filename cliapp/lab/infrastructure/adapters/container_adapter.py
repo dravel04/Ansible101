@@ -1,7 +1,6 @@
-# lab/infrastructure/services/container_service.py
-from lab.core.interfaces.container_provider import ContainerProvider
+# lab/infrastructure/adapters/container_adapter.py
 
-class ContainerService(ContainerProvider):
+class ContainerAdapter:
     def __init__(self, engine="docker"):
         self.engine = engine
         if engine == "docker":
@@ -32,9 +31,9 @@ class ContainerService(ContainerProvider):
             return container, failed, error_output
 
     def remove_container(self, name):
+        output = ''
         failed = False
         error_output = ''
-        output = ''
         try:
             container = self.client.containers.get(name)
             output = container.remove(force=True)

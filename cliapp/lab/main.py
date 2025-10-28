@@ -3,9 +3,6 @@ from typing_extensions import Annotated
 from rich.logging import RichHandler
 import logging
 
-# Variable global para guardar la instancia de Lab
-lab = None
-
 # Configuracion global del logger
 logger = logging.getLogger("lab")
 logger.setLevel(logging.INFO)
@@ -32,21 +29,20 @@ def init(
     """
     Inicia el laboratorio y sus dependencias
     """
-    try:
-        from lab.core.entities.lab import Lab
-        from lab.infrastructure.services.lab_service import LabService
-        if debug:
-            logger.setLevel(logging.DEBUG)
-        exists,lab = Lab.load(force)
-        if not exists:
-            lab.engine=engine
-            lab.save()
-        else:
-            raise ValueError(f"Ya existe una instancia de Lab [engine={lab.engine}]. Para crear una nueva instancia, usar 'lab init <engine> -f' o borrar el fichero '~/.lab_config.json'")
-        service = LabService(lab)
-        service.init()
-    except Exception as e:
-        logger.error(f"{type(e).__name__}: {e}")
+    from lab.infrastructure.adapters.lab_repository_adapter import LabRepositoryAdapter
+    from lab.infrastructure.adapters.lab_adapter import LabAdapter
+    from lab.application.use_cases.lab_initializer import LabInitializer
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    repo_adapter = LabRepositoryAdapter()
+    service = LabAdapter()
+    lab = LabInitializer()
+    lab.execute(
+        service=service,
+        repo_adapter=repo_adapter,
+        engine=engine,
+        force=force
+    )
 
 @app.command()
 def start(
@@ -58,9 +54,13 @@ def start(
     """
     Inicia las dependencias del ejercicio correspondiente
     """
-    from lab.core.registry import auto_discover_exercises, EXERCISES
-    auto_discover_exercises()
-    cls = EXERCISES.get(exercisename.lower())
+    from lab.infrastructure.adapters.registry_adapter import RegistryAdapter
+    if debug:
+        logger.setLevel(logging.DEBUG)
+
+    registry = RegistryAdapter()
+    exercises_map = registry.auto_discover_exercises()
+    cls = exercises_map.get(exercisename.lower())
     if not cls:
         typer.secho(
             f"\n❌ Error: Ejercicio '{exercisename}' no existe.\n",
@@ -68,12 +68,7 @@ def start(
             bold=False
         )
         raise typer.Exit(code=1)
-
-    if debug:
-        logger.setLevel(logging.DEBUG)
-
     # Creamos instancia de Exercise con el nombre pasado
-    # print(lab.engine)
     exercise = cls(exercisename)
     exercise.start()
 
@@ -85,9 +80,13 @@ def grade(
     """
     Evalua el ejercicio correspondiente
     """
-    from lab.core.registry import auto_discover_graders, GRADERS
-    auto_discover_graders()
-    cls = GRADERS.get(exercisename.lower())
+    from lab.infrastructure.adapters.registry_adapter import RegistryAdapter
+    if debug:
+        logger.setLevel(logging.DEBUG)
+
+    registry = RegistryAdapter()
+    graders_map = registry.auto_discover_graders()
+    cls = graders_map.get(exercisename.lower())
     if not cls:
         typer.secho(
             f"\n❌ Error: Ejercicio '{exercisename}' no existe.\n",
@@ -95,10 +94,6 @@ def grade(
             bold=False
         )
         raise typer.Exit(code=1)
-
-    if debug:
-        logger.setLevel(logging.DEBUG)
-
     # Creamos instancia de Grader con el nombre pasado
     grader = cls(exercisename)
     grader.grade()
@@ -112,9 +107,13 @@ def finish(
     """
     Libera las dependencias del ejercicio correspondiente
     """
-    from lab.core.registry import auto_discover_exercises, EXERCISES
-    auto_discover_exercises()
-    cls = EXERCISES.get(exercisename.lower())
+    from lab.infrastructure.adapters.registry_adapter import RegistryAdapter
+    if debug:
+        logger.setLevel(logging.DEBUG)
+
+    registry = RegistryAdapter()
+    exercises_map = registry.auto_discover_exercises()
+    cls = exercises_map.get(exercisename.lower())
     if not cls:
         typer.secho(
             f"\n❌ Error: Ejercicio '{exercisename}' no existe.\n",
@@ -122,10 +121,6 @@ def finish(
             bold=False
         )
         raise typer.Exit(code=1)
-    
-    if debug:
-        logger.setLevel(logging.DEBUG)
-
     # Creamos instancia de Exercise con el nombre pasado
     exercise = cls(exercisename)
     exercise.finish()
