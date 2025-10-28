@@ -1,7 +1,7 @@
-# lab/infrastructure/services/container_service.py
-from lab.core.interfaces.container_provider import ContainerProvider
+# lab/infrastructure/adapters/container_adapter.py
+from typing import Protocol, Tuple, Optional, Any
 
-class ContainerService(ContainerProvider):
+class ContainerAdapter:
     def __init__(self, engine="docker"):
         self.engine = engine
         if engine == "docker":
@@ -13,7 +13,12 @@ class ContainerService(ContainerProvider):
         else:
             raise ValueError(f"Unsupported engine: {engine}")
 
-    def run_container(self, image, name, ports=None):
+    def run_container(
+        self,
+        image: str,
+        name: str,
+        ports: Optional[dict] = None,
+    ) -> Tuple[Any, bool, str]:
         failed = False
         error_output = ''
         container = None
@@ -31,15 +36,17 @@ class ContainerService(ContainerProvider):
             error_output = f"{type(e).__name__}: {e}"
             return container, failed, error_output
 
-    def remove_container(self, name):
+    def remove_container(
+        self,
+        name: str,
+    ) -> Tuple[bool, str]:
         failed = False
         error_output = ''
-        output = ''
         try:
             container = self.client.containers.get(name)
-            output = container.remove(force=True)
-            return output, failed, error_output
+            container.remove(force=True)
+            return failed, error_output
         except Exception as e:
             failed = True
             error_output = f"{type(e).__name__}: {e}"
-            return output, failed, error_output
+            return failed, error_output

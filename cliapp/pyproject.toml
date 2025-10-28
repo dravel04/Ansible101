@@ -1,7 +1,7 @@
 [project]
 # Información general del proyecto
 name = "lab"  # Nombre del proyecto. Usado para empaquetado e instalación.
-version = "1.0.0"  # Versión actual del proyecto.
+version = "0.5.3"  # Versión actual del proyecto.
 description = "CLI para la gestión de ejercicios de laboratorio de un curso Ansible."  # Descripción corta.
 authors = [
   { name = "Rafael Marín", email = "tu.email@example.com" }
@@ -11,9 +11,10 @@ requires-python = ">=3.8"
 
 # Dependencias del proyecto (equivalente a install_requires en setuptools)
 dependencies = [
-  "typer=0.17.4",
+  "typer==0.17.4",
   "typing_extensions==4.15.0",
   "rich==14.1.0",
+  "docker==7.1.0",
 ]
 
 [project.scripts]

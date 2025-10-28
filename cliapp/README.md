@@ -2,32 +2,59 @@
 
 ```mermaid
 flowchart TB
-    subgraph Main["main.py CLI Entry"]
-      MainCLI["Typer CLI - start, grade, finish"]
+    %% Main CLI
+    subgraph Main["main.py - CLI Entry"]
+        CLI["Typer CLI - comandos: init, start, grade, finish"]
     end
 
+    %% Core / Domain
     subgraph Core["Core Layer / Domain"]
-      Entities["Entities - Exercise, Grader"]
+        Entities["Entities - Lab, Exercise, Grader"]
+        Ports["Ports / Protocols - LabPort, LabRepository, ExercisePort, GraderPort, ProgressNotifierPort, RegistryPort"]
     end
 
-    subgraph Infra["Infrastructure / Adapters"]
-        ExerciseInfra["Exercise Implementations - exercise_a, b, c"]
-        GraderInfra["Grader Implementations - grader_a, b, c"]
-        UIInfra["UI Helpers - console_utils.py"]
+    %% Application / Use Cases
+    subgraph App["Application Layer / Use Cases"]
+        LabInit["LabInitializer - inicializa lab y ejecuta adapters"]
+        ExerciseUC["Exercise Use Cases - ExerciseA, ExerciseC, ..."]
+        GraderUC["Grader Use Cases - GraderA, GraderC, ..."]
     end
 
-    subgraph External["External Tools"]
-        Rich["Rich / Spinner"]
-        Logging["Logging"]
+    %% Infrastructure / Adapters
+    subgraph Infra["Infrastructure Layer / Adapters"]
+        LabAdapter["LabAdapter -> implementa LabPort"]
+        RepoAdapter["LabRepositoryAdapter -> implementa LabRepository"]
+        RegistryAdapter["RegistryAdapter -> implementa RegistryPort"]
+        ContainerAdapter["ContainerAdapter -> implementa ContainerPort"]
+        UIHelpers["ProgressNotifierAdapter -> implementa ProgressNotifierPort"]
     end
 
-    %% Relationships
-    MainCLI --> Entities
-    ExerciseInfra --> Entities
-    GraderInfra --> Entities
-    UIInfra --> Entities
-    UIInfra --> Logging
-    UIInfra --> Rich
+    %% External Tools
+    subgraph External["External Tools / Libs"]
+        Rich["Rich (Spinner, Text, Console)"]
+        Logging["Python Logging / RichHandler"]
+    end
+
+    %% Relaciones
+    CLI --> LabInit
+    CLI --> ExerciseUC
+    CLI --> GraderUC
+
+    LabInit --> LabAdapter
+    LabInit --> RepoAdapter
+    LabInit --> Entities
+    LabInit --> UIHelpers
+
+    ExerciseUC --> Entities
+    ExerciseUC --> Ports
+    ExerciseUC --> ContainerAdapter
+
+    GraderUC --> Entities
+    GraderUC --> Ports
+
+    ContainerAdapter --> External
+    UIHelpers --> External
+
 ```
 
 ---
