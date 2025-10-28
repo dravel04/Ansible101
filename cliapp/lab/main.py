@@ -2,6 +2,7 @@ import typer
 from typing_extensions import Annotated
 from rich.logging import RichHandler
 import logging
+from lab.infrastructure.ui.progress_notifier_adapter import ProgressNotifierAdapter
 
 # Configuracion global del logger
 logger = logging.getLogger("lab")
@@ -70,7 +71,8 @@ def start(
         raise typer.Exit(code=1)
     # Creamos instancia de Exercise con el nombre pasado
     exercise = cls(exercisename)
-    exercise.start()
+    notifier = ProgressNotifierAdapter()
+    exercise.start(notifier)
 
 @app.command()
 def grade(
@@ -81,6 +83,7 @@ def grade(
     Evalua el ejercicio correspondiente
     """
     from lab.infrastructure.adapters.registry_adapter import RegistryAdapter
+    from lab.infrastructure.ui.progress_notifier_adapter import ProgressNotifierAdapter
     if debug:
         logger.setLevel(logging.DEBUG)
 
@@ -96,7 +99,8 @@ def grade(
         raise typer.Exit(code=1)
     # Creamos instancia de Grader con el nombre pasado
     grader = cls(exercisename)
-    grader.grade()
+    notifier = ProgressNotifierAdapter()
+    grader.grade(notifier)
 
 
 @app.command()
@@ -123,7 +127,8 @@ def finish(
         raise typer.Exit(code=1)
     # Creamos instancia de Exercise con el nombre pasado
     exercise = cls(exercisename)
-    exercise.finish()
+    notifier = ProgressNotifierAdapter()
+    exercise.finish(notifier)
 
 
 if __name__ == '__main__':
