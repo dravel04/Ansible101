@@ -6,6 +6,13 @@ class ContainerPort(Protocol):
     Define el contrato para la gestion de contenedores.
     """
     engine: str
+    client: Any
+    def init_client(self) -> None:
+        """
+        Inicializa el cliente del container runtime
+        """
+        ...
+
     def run_container(
         self,
         image: str,
