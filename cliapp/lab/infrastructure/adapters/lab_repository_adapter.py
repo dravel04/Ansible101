@@ -16,11 +16,11 @@ class LabRepositoryAdapter:
         if force or not LAB_CONFIG_PATH.exists():
             exists = False
             return exists, lab
-        logger.debug(f"Cargando configuración desde {LAB_CONFIG_PATH}")
+        logger.debug(f"Cargando configuracion desde {LAB_CONFIG_PATH}")
         try:
             data = json.loads(LAB_CONFIG_PATH.read_text())
         except json.JSONDecodeError:
-            logger.warning("Archivo de configuración inválido, recreando.")
+            logger.warning("Archivo de configuracion invalido, recreando.")
             return False, Lab()
         engine = data.get('engine')
         lab = Lab(engine=engine) 

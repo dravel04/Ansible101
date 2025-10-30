@@ -29,6 +29,6 @@ class GraderA:
         checks: list[Tuple[str, CheckFunc]] = [
             ("Creating exercise containers", self._restore_password),
             ("Installing required packages", self._verify_packages),
-            # Añadir más checks...
+            # Añadir mas checks...
         ]
         notifier.run_checks('grade', checks)

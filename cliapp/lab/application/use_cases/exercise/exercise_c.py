@@ -53,7 +53,7 @@ class ExerciseC:
         checks: list[Tuple[str, CheckFunc]] = [
             ("Creating exercise containers", partial(self._create_containers, container_provider)),
             ("Installing required packages", self._install_packages),
-            # Añadir más checks...
+            # Añadir mas checks...
         ]
         notifier.run_checks('start', checks)
     
@@ -64,6 +64,6 @@ class ExerciseC:
         container_provider = ContainerAdapter()
         checks: list[Tuple[str, CheckFunc]] = [
             ("Removing exercise containers", partial(self._delete_containers, container_provider)),
-            # Añadir más checks...
+            # Añadir mas checks...
         ]
         notifier.run_checks('finish', checks)

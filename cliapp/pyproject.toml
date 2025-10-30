@@ -1,13 +1,13 @@
 [project]
 # Información general del proyecto
 name = "lab"  # Nombre del proyecto. Usado para empaquetado e instalación.
-version = "0.5.3"  # Versión actual del proyecto.
+version = "0.6.3"  # Versión actual del proyecto.
 description = "CLI para la gestión de ejercicios de laboratorio de un curso Ansible."  # Descripción corta.
 authors = [
   { name = "Rafael Marín", email = "tu.email@example.com" }
 ]
 # Versión mínima de Python requerida.
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 
 # Dependencias del proyecto (equivalente a install_requires en setuptools)
 dependencies = [
@@ -26,22 +26,20 @@ lab = "lab.main:app"
 [build-system]
 # Información necesaria para construir el paquete.
 requires = [               # Herramientas necesarias para construirlo
-  "setuptools==61.0",      # Backend clásico de empaquetado Python
+  "setuptools==80.1.0",      # Backend clásico de empaquetado Python
   "wheel",                 # Para generar archivos .whl
-  "nuitka==2.7.14",        # Compilador para convertir Python en binario
   "toml",                  # Parser para pyproject.toml
 ]
 # build-backend indica qué herramienta se usa para construir
-build-backend = "nuitka.distutils.Build"
+build-backend = "setuptools.build_meta"
 
 # Opcional: secciones de datos adicionales para setuptools
-# [tool.setuptools.package-data]
-# some_package = ['data_file.txt']
-
-[tool.nuitka]
-standalone = true     # Genera un binario independiente con todas las dependencias
-onefile = true        # Produce un solo archivo ejecutable
-show-scons = true     # Muestra el output de SCons durante la compilación
+[tool.setuptools.package-data]
+lab = [
+  'lab/application/use_cases/exercise/*.py',
+  'lab/application/use_cases/grader/*.py',
+  'lab/infrastructure/containerfiles/*',
+]
 
 # Otras opciones avanzadas (comentadas) para excluir ciertos módulos o tests
 # nofollow-import-to = ["*.tests", "*.distutils"]

@@ -18,6 +18,6 @@ class RegistryPort(Protocol):
 
     def auto_discover_images(self) -> Dict[str, Dict[str, str]]:
         """
-        Descubre y retorna la información de las imágenes del Lab (rutas, tags).
+        Descubre y retorna la informacion de las imagenes del Lab (rutas, tags).
         """
         ...

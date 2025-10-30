@@ -8,6 +8,6 @@ class LabAdapter:
 
     def init(self, lab: Lab) -> None:
         if lab.engine == "docker":
-            # lógica docker
+            # logica docker
             ...
 

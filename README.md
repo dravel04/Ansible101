@@ -3,8 +3,16 @@ Para mayor facilidad exportaremos nuestro paquete mediante `pip`.
 
 ## Compilar el programa
 ```shell
-pip install -e .
-python -m nuitka  --onefile --standalone --static-libpython=no --output-filename=lab-cli lab/main.py
+pip install nuitka
+python -m nuitka \
+  --standalone \
+  --onefile \
+  --static-libpython=no \
+  --include-data-dir=lab/infrastructure/containerfiles=lab/infrastructure/containerfiles \
+  --include-data-dir=lab/application/use_cases/exercise=lab/application/use_cases/exercise \
+  --include-data-dir=lab/application/use_cases/grader=lab/application/use_cases/grader \
+  lab/main.py \
+  --output-filename=lab-cli
 ```
 
 
