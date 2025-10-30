@@ -1,6 +1,6 @@
 # lab/infrastructure/adapters/lab_adapter.py
-import logging
 from lab.core.entities.lab import Lab
+import logging
 
 logger = logging.getLogger("lab")
 

@@ -10,7 +10,7 @@ logger = logging.getLogger("lab")
 # Definimos el tipo de la funcion de chequeo que vamos a pasar al notificador
 CheckFunc = Callable[[], Tuple[bool, str]]
 
-class GraderA:
+class GraderC:
 
     def __init__(self, exercisename: str):
         self.exercisename = exercisename
