@@ -40,7 +40,8 @@ main.dist
 main.onefile-build
 
 # generated types
-.astro/
+webapp/hosts
+webapp/ansible.cfg
 
 # dependencies
 node_modules/

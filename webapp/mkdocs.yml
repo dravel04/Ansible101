@@ -17,8 +17,13 @@ theme:
       toggle:
         icon: material/brightness-7 
         name: Switch to dark mode
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
 nav:
   - Home: index.md
-  - Guías:
-      - Introducción: introduccion.md
-      - Instalación: instalacion.md
+  - Contenido:
+      - Introduccion: introduction.md
