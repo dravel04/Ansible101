@@ -2,7 +2,10 @@ site_name: Ansible101
 theme:
   features:
     - navigation.expand
+    - content.code.copy
   name: material
+  # logo: images/logo.png
+  # favicon: images/favicon_old.png
   font:
     text: Roboto
     code: Roboto Mono
@@ -27,3 +30,4 @@ nav:
   - Home: index.md
   - Contenido:
       - Introduccion: introduction.md
+      - Admonitions: admonitions_list.md

@@ -267,6 +267,9 @@ Usa colecciones oficiales (por ejemplo `ansible.builtin`, `community.general`) p
     host_key_checking = False
     ```
 
+!!! danger
+    En entornos productivos `host_key_checking` debe estar siempre a `True` para evitar **server spoofing** y ataques **man-in-the-middle**
+
 !!! tip
     Puedes establecer una configuración global en `/etc/ansible/ansible.cfg`
     o local por proyecto (recomendado) en el directorio de trabajo.
@@ -283,6 +286,10 @@ Crear un **virtual enviroment** de trabajo:
 ```shell
 python -m venv venv
 source venv/bin/activate
+```
+
+Instalar **ansible**:
+```
 pip install ansible-core==2.16.14
 ```
 
@@ -293,11 +300,18 @@ ansible --version
 
 ### 2. Crear un Inventario Simple
 
-Archivo `inventory`:
+Con tu editor de confianza, crea el archivo `inventory`:
 
-```ini
-[local]
+```toml
+[all]
 localhost ansible_connection=local
+```
+
+y `ansible.cfg`:
+```toml
+[defaults]
+inventory = ./inventory
+host_key_checking = False # no
 ```
 
 ### 3. Validar configuración local
@@ -305,7 +319,7 @@ localhost ansible_connection=local
 Lanzamos el siguiente comando:
 
 ```shell
-ansible -i hosts -m ping localhost
+ansible -m ping localhost
 ```
 
 Salida esperada:
