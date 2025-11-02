@@ -3,7 +3,9 @@ from typing import Callable, Tuple, Union, List
 from functools import partial
 from rich.text import Text
 import logging
+import sys
 
+from lab.core.dtos.EventInfo import EventInfo
 from lab.core.interfaces.container_port import ContainerPort
 from lab.core.interfaces.progress_notifier_port import ProgressNotifierPort
 from lab.infrastructure.adapters.container_adapter import ContainerAdapter
@@ -26,9 +28,9 @@ class ExerciseA:
         Implementa una de las tareas (checks) de la secuencia
         """
         container, failed, error_output = container_provider.run_container(
-            image="ssh-ol:8.10",
-            name="machine-a",
-            ports={"22/tcp": 2223, "80/tcp": 8080},
+            image="lab-ssh-ol8",
+            name="web1",
+            ports={"22/tcp": 2232, "80/tcp": 8080},
         )
         return failed, error_output
 
@@ -40,7 +42,7 @@ class ExerciseA:
     def _delete_containers(self, container_provider: ContainerPort):
         failed = False
         error_output = ''
-        failed, error_output = container_provider.remove_container('machine-a')
+        failed, error_output = container_provider.remove_container('web1')
         # if logger.isEnabledFor(logging.DEBUG):
         #     append_msg_with_datatime(instance=self,msg=f"Output: {error_output}",last=True)
         return failed, error_output
@@ -57,21 +59,37 @@ class ExerciseA:
         # notifier.finish(spinner_handle, finished_event)
         # sys.exit(1) if event_info.failed else None
 
-        container_provider = ContainerAdapter()
-        checks: list[Tuple[str, CheckFunc]] = [
-            ("Creating exercise containers", partial(self._create_containers, container_provider)), # type: ignore
-            ("Installing required packages", self._install_packages),
-            # Añadir mas checks...
-        ]
-        notifier.run_checks('start', checks)
+        container_service = ContainerAdapter()
+        container_service.init_client()
+        event_info = EventInfo(name='Creando container para el ejercicio')
+        spinner_handle, finished_event = notifier.start(event_info)
+        failed, error_output = self._create_containers(container_service)
+        event_info.failed = failed; event_info.error_msg = error_output
+        notifier.finish(spinner_handle, finished_event)
+        sys.exit(1) if event_info.failed else None
+
+        # checks: list[Tuple[str, CheckFunc]] = [
+        #     ("Creating exercise containers", partial(self._create_containers, container_provider)), # type: ignore
+        #     ("Installing required packages", self._install_packages),
+        #     # Añadir mas checks...
+        # ]
+        # notifier.run_checks('start', checks)
     
     def finish(self, notifier: ProgressNotifierPort) -> None:
         """
         Orquestacion de finalizacion: Define la secuencia de eventos.
         """
-        container_provider = ContainerAdapter()
-        checks: list[Tuple[str, CheckFunc]] = [
-            ("Removing exercise containers", partial(self._delete_containers, container_provider)), # type: ignore
-            # Añadir mas checks...
-        ]
-        notifier.run_checks('finish', checks)
+        container_service = ContainerAdapter()
+        container_service.init_client()
+        event_info = EventInfo(name='Eliminando containers del ejercicio')
+        spinner_handle, finished_event = notifier.start(event_info)
+        failed, error_output = self._delete_containers(container_service)
+        event_info.failed = failed; event_info.error_msg = error_output
+        notifier.finish(spinner_handle, finished_event)
+        sys.exit(1) if event_info.failed else None
+
+        # checks: list[Tuple[str, CheckFunc]] = [
+        #     ("Removing exercise containers", partial(self._delete_containers, container_provider)), # type: ignore
+        #     # Añadir mas checks...
+        # ]
+        # notifier.run_checks('finish', checks)
