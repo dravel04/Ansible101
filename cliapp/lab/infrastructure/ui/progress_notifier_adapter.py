@@ -4,70 +4,57 @@ from rich.console import Console, Group
 from rich.spinner import Spinner
 from rich.text import Text
 from rich.live import Live
-from typing import Tuple, Callable
+from typing import Tuple
+from threading import Thread, Event
 
-CheckFunc = Callable[[], Tuple[bool, str]]
+from lab.core.dtos.EventInfo import EventInfo
 
 class ProgressNotifierAdapter:
 
-    # def _append_msg_with_datatime(self, instance: Exercise, msg, last=False) -> Optional[Exercise]:
-    #     instance.debug_msg.append(
-    #         Text.assemble(
-    #             (f"[{datetime.now().strftime('%m/%d/%y %H:%M:%S')}]", "dim cyan"),
-    #             (" DEBUG    ", "green"),
-    #             (msg, "default"),
-    #         )
-    #     )
-    #     if last:
-    #         instance.debug_msg.append('')
+    def __init__(self):
+        self.console = Console()
 
-    def _check_status(self, check_text: str, failed: bool, error_output: str) -> Text:
-        # Mostrar el spinner durante la "validacion"
+    def _spinner_task(self, stop_event: Event, finished_event: Event, event_info: EventInfo) -> None:
+        """Spinner que corre hasta que stop_event este activado"""
         import time
-        time.sleep(2)
+        spinner_line = Group(
+            Spinner("dots", text=Text(event_info.name, style="default not bold"))
+        )
+        with Live(console=self.console, refresh_per_second=10) as live:
+            live.update(spinner_line)
+            while not stop_event.is_set():
+                time.sleep(0.05)
+            if event_info.failed:
+                final_text = (
+                    Text("FAILED\t", style="red")
+                    + Text(event_info.name, style="default bold")
+                )
+                final_text.append(Text(f"\n{event_info.error_msg}", style="italic yellow"))
+            else:
+                final_text = (
+                    Text("SUCCESS\t", style="green")
+                    + Text(event_info.name, style="default bold")
+                )
+            live.update(final_text)
+            finished_event.set()
 
-        # Al terminar, mostrar texto plano con el resultado
-        if failed:
-            final_text = (
-                Text("FAILED\t", style="red")
-                + Text(check_text, style="default bold")
-            )
-            final_text.append(Text(f"\n{error_output}", style="italic yellow"))
-        else:
-            final_text = (
-                Text("SUCCESS\t", style="green")
-                + Text(check_text, style="default bold")
-            )
-        return final_text
+    def start(self, event_info: EventInfo) -> Tuple[Event, Event]:
+        """
+        Inicia un spinner con el texto dado.
+        Devuelve un Event que debe ser activado cuando la tarea termine.
+        """
+        stop_event = Event()
+        finished_event = Event()
+        # Si daemon=True → el hilo no bloquea que el programa termine.
+        #   Cuando el hilo principal termina, todos los threads daemon se cierran automáticamente, aunque estén en bucle.
+        # Si daemon=False (por defecto) → el hilo obliga al programa a esperar hasta que termine, aunque el hilo principal haya acabado.
+        thread = Thread(target=self._spinner_task, args=(stop_event, finished_event, event_info), daemon=False)
+        thread.start()
+        return stop_event,finished_event
 
-
-    # def run_checks(self, action: str, checks: list[Tuple[str, CheckFunc]], instance: Exercise) -> None:
-    def run_checks(self, action: str, checks: list[Tuple[str, CheckFunc]]) -> None:
-        console = Console()
-        failed = False
-
-        for check_text, check_fn in checks:
-            spinner_line = Group(
-                Spinner("dots", text=Text(check_text, style="default not bold"))
-            )
-            with Live(console=console, refresh_per_second=10) as live:
-                live.update(spinner_line)
-                failed,error_output = check_fn()
-                final_text = self._check_status(check_text,failed,error_output)
-                # if instance.debug_msg:
-                #     group = Group(
-                #             final_text,
-                #             *[line for line in instance.debug_msg],
-                #         )
-                #     instance.debug_msg.clear()
-                #     live.update(group)
-                # else:
-                live.update(final_text)
-                
-                if failed:
-                    break
-
-        if action == 'grader' and not failed:
-            console.print("\nValidacion completada", highlight=False)
-
-        print("\n")
+    def finish(self, spinner_handle: Event, finished_event: Event) -> None:
+        """
+        Detiene el spinner y muestra el resultado final
+        """
+        spinner_handle.set()
+        finished_event.wait()

@@ -1,21 +1,22 @@
-# lab/core/interfaces/progress_notifier_port.py
-from typing import Protocol, Callable, Tuple
+from typing import Protocol, runtime_checkable
+from threading import Event
 
-# Define el tipo (la "firma") de las funciones que representan las tareas de verificacion (checks).
-# Firma: Una funcion que no acepta argumentos (representado por '[]') y debe retornar una tupla.
-# Retorno: Tuple[bool, str] donde:
-#          - bool: Indica si el check tuvo exito (True) o fallo (False)
-#          - str: Es el mensaje (ej. mensaje de error si falla)
-CheckFunc = Callable[[], Tuple[bool, str]]
+from lab.core.dtos.EventInfo import EventInfo
 
+@runtime_checkable
 class ProgressNotifierPort(Protocol):
     """
-    Define el contrato para notificar el progreso de 
-    la ejecucion del Caso de Uso (ej. con un spinner de CLI).
+    Contrato para notificar el progreso de la ejecución de un caso de uso.
     """
-    # def run_checks(self, action: str, checks: list[Tuple[str, CheckFunc]], instance: Exercise) -> None:
-    def run_checks(self, action: str, checks: list[Tuple[str, CheckFunc]]) -> None:
+    def start(self, event_info: EventInfo) -> Event:
         """
-        Ejecuta una lista de checks o tareas, manejando la visualizacion del progreso.
+        Inicia un spinner con el texto dado.
+        Devuelve un objeto que se usará para detener el spinner más tarde.
+        """
+        ...
+
+    def finish(self, spinner_handle: Event, finished_event: Event) -> None:
+        """
+        Detiene el spinner e imprime el resultado final.
         """
         ...
