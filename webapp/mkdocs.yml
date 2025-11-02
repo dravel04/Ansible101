@@ -30,4 +30,5 @@ nav:
   - Home: index.md
   - Contenido:
       - Introduccion: introduction.md
+      - Fundamentos: basics.md
       - Admonitions: admonitions_list.md
