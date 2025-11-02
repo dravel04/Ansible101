@@ -1,13 +1,24 @@
 # lab/core/interfaces/lab_port.py
-from typing import Protocol
-from lab.core.entities.lab import Lab
+from typing import Protocol, Tuple, runtime_checkable
 
+from lab.core.interfaces.container_port import ContainerPort
+
+@runtime_checkable
 class LabPort(Protocol):
+    """
+    Define el contrato para verificar si estamos en una carpeta de trabajo valida
+    """
+    def verify_context(self) -> Tuple[bool, str]:
+        """
+        Ejecuta las dependencias de verificacion
+        """
+        ...
+
     """
     Define el contrato para la inicializacion tecnica 
     de la infraestructura del Lab (Ej: inicializar el lab, construir imagenes, etc).
     """
-    def init(self, lab: Lab) -> None:
+    def init(self, container_service: ContainerPort) -> Tuple[bool, str]:
         """
         Ejecuta las dependencias de inicializacion
         """

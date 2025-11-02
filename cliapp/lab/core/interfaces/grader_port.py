@@ -1,7 +1,8 @@
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from lab.core.interfaces.progress_notifier_port import ProgressNotifierPort
 
+@runtime_checkable
 class Grader(Protocol):
     """
     Define el contrato para la inicializacion tecnica 

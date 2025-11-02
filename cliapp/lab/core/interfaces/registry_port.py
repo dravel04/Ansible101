@@ -1,8 +1,9 @@
 # lab/core/interfaces/registry_port.py
-from typing import Protocol, Dict, Type
+from typing import Protocol, Dict, Type, runtime_checkable
 from lab.core.interfaces.exercise_port import Exercise
 from lab.core.interfaces.grader_port import Grader
 
+@runtime_checkable
 class RegistryPort(Protocol):
     def auto_discover_exercises(self) -> Dict[str, Type[Exercise]]:
         """
