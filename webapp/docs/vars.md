@@ -1,4 +1,4 @@
-# 🧩 Módulo 3: Variables y Prioridades en Ansible
+# 🧩 Módulo 3: Prioridad de variables en Ansible
 
 ## 🎯 Objetivos
 
@@ -32,13 +32,17 @@ Ejemplo:
         state: present
 ```
 
-!!! tip
+!!! note
     Las variables se expanden con doble llave `{{ variable }}`
+
+    Deben entrecomillarse cuando se usan al inicio:     
+    `app_path: {{ base_path }}/22` ➜ `app_path: "{{ base_path }}/22"`
+
     Pueden usarse en cualquier parte de un playbook: rutas, nombres, comandos, etc.
 
 ---
 
-## 📦 Dónde Definir Variables
+## 📜 Dónde Definir Variables
 
 Ansible permite definir variables en **muchos lugares**, según el contexto:
 
@@ -51,6 +55,9 @@ Ansible permite definir variables en **muchos lugares**, según el contexto:
 | **Línea de comandos**    | Usando `-e` o `--extra-vars`                       | `ansible-playbook play.yml -e "pkg_name=nginx"` | Máxima prioridad                          |
 | **Facts del sistema**    | Recogidos automáticamente con `gather_facts`       | `ansible_hostname`, `ansible_distribution`      | Variables especiales del sistema remoto   |
 
+!!! abstract
+    [Link](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable) a la documentación oficial
+
 ---
 
 ### Ejemplo Práctico — Variables por Niveles
@@ -59,7 +66,10 @@ Supongamos que tenemos este inventario:
 
 ```ini
 [webservers]
-web1 ansible_host=192.168.1.10 app_port=80
+web1 ansible_host=192.168.1.10
+web2 ansible_host=192.168.1.11
+[webservers:vars]
+app_port=80
 ```
 
 Y este playbook `vars_demo.yml`:
@@ -100,7 +110,9 @@ ok: [web1] => {
 
 ## 🧮 Prioridad de Variables (de menor a mayor)
 
-La precedencia determina **cuál valor “gana”** cuando una variable se define en varios lugares.
+La precedencia determina **cuál valor “gana”** cuando una variable se define en varios lugares. 
+
+Un número más alto en la prioridad sobreescribe al resto
 
 | Prioridad | Nivel                                                        | Ejemplo                                           |
 | :-------: | :------------------------------------------------------------| :------------------------------------------------ |
@@ -140,31 +152,31 @@ Y el playbook `vars_priority.yml`:
         msg: "Aplicación: {{ app_name }}"
 ```
 
-#### 1️⃣ Valor desde el playbook:
+#### Valor desde el playbook:
 
 ```bash
 ansible-playbook vars_priority.yml
 ```
 
-➡️ Salida:
+Salida:
 
 ```shell
 "msg": "Aplicación: apache2"
 ```
 
-#### 2️⃣ Sobrescribir desde la línea de comandos:
+#### Sobrescribir desde la línea de comandos:
 
 ```bash
 ansible-playbook vars_priority.yml -e "app_name=nginx"
 ```
 
-➡️ Salida:
+Salida:
 
 ```shell
 "msg": "Aplicación: nginx"
 ```
 
-👉 Las variables pasadas con `-e` tienen **máxima prioridad**.
+Las variables pasadas con `-e` tienen **máxima prioridad**.
 
 ---
 
@@ -222,14 +234,16 @@ También puedes definir variables dinámicas durante la ejecución con `set_fact
 
     ```
     ERROR! 'pkg_name' is undefined
+    The task includes an option with an undefined variable.
+    The error was: 'pkg_name' is undefined
     ```
 
-    → Usa `default()` en tus expresiones: `{{ pkg_name | default('nginx') }}`
+    → Usa `default()` en tus expresiones: `{{ pkg_name | default('nginx',true) }}`
+    
+    → Añadir la `true` hace que se asigne el valor default ante cadenas vacías
 
-2. **Confusión por precedencia**
-    → Revisa siempre con `ansible-inventory --graph` y `ansible -m debug -a "var=variable_name"`
+2. **Indentación incorrecta**
 
-3. **Indentación incorrecta**
     → Afecta especialmente en bloques `vars:` y `vars_files:`.
 
 ---
@@ -241,11 +255,10 @@ También puedes definir variables dinámicas durante la ejecución con `set_fact
     - Usa `defaults/main.yml` en roles para asegurar valores seguros.
     - Evita nombres genéricos (`port`, `user`); usa prefijos (`web_port`, `db_user`).
     - Documenta el propósito de las variables.
-    - No pongas contraseñas en texto plano: usa **Ansible Vault** (veremos más adelante).
 
 ---
 
-## 🧪 Ejercicio Práctico
+## 📚 Ejercicio Práctico
 
 Crea un playbook llamado `vars_lab.yml` que:
 
@@ -256,13 +269,14 @@ Crea un playbook llamado `vars_lab.yml` que:
     web_port: 8080
     web_root: /tmp/demo
     ```
-3. Cree el directorio y un archivo `index.html` con el contenido:
+3. Crea el directorio y un archivo `index.html` con el contenido:
 
     ```
     Servidor escuchando en el puerto {{ web_port }}
     ```
-4. Permite sobrescribir `web_port` desde la línea de comandos con `-e`.
+4. Prueba sobrescribir `web_port` desde la línea de comandos con `-e`.
 
-💡 **Desafío adicional:**
-Agrega una tarea que muestre con `debug:` la ruta completa al archivo creado.
+🔬 **Desafío adicional:**
 
+  - Agrega una tarea que muestre con `debug:` la ruta completa del archivo creado
+  - Agrega una tarea que muestre con `debug:` el contenido del archivo creado

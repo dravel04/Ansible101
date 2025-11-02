@@ -44,7 +44,7 @@ Ejemplos:
 
 ### Sintaxis de un Playbook
 
-Un **playbook** es un archivo YAML que describe uno o más *plays*.
+Un **playbook** es un archivo YAML que describe uno o más [*plays*](./introduction.md#plays).
 Cada *play* define:
 
 1. **A qué hosts** se aplicará (`hosts:`)
