@@ -4,38 +4,41 @@
 
 Al finalizar este módulo, serás capaz de:
 
-1. Ejecutar **comandos ad-hoc** para realizar acciones rápidas sobre hosts gestionados.
-2. Comprender la **estructura y sintaxis** de un playbook en YAML.
-3. Crear y ejecutar **tareas simples y compuestas** dentro de un playbook.
-4. Utilizar **módulos comunes** de Ansible en tareas cotidianas.
-5. Diferenciar entre la **ejecución puntual (ad-hoc)** y la **automatización persistente (playbooks)**.
+1. Ejecutar **comandos ad-hoc** para realizar acciones rápidas
+2. Comprender la **estructura y sintaxis** de un playbook en YAML
+3. Crear y ejecutar **tareas simples y compuestas** dentro de un playbook
+4. Utilizar **módulos comunes** de Ansible
+5. Diferenciar entre la **ejecución puntual (ad-hoc)** y la **automatización persistente (playbooks)**
 
 ---
 
 ## 🧠 Teoría
 
-### Comandos *Ad-hoc*: la forma más directa de automatizar
+### Comandos *Ad-hoc*
 
-Los **comandos ad-hoc** son una forma rápida de ejecutar tareas simples en uno o varios hosts **sin escribir un playbook**.
+Los **comandos ad-hoc** son una forma rápida de ejecutar tareas simples en uno o varios hosts **sin escribir un playbook**
 
 Sintaxis general:
 
 ```bash
-ansible <grupo_o_host> -m <módulo> -a "<argumentos>"
+ansible -i <fichero_inventario> <grupo_o_host> -m <módulo> -a "<argumentos>"
 ```
+!!! info
+    Para evitar tener que usar el `-i <inventory_file>` todo el rato es recomendable definir la linea `inventory = ./inventory` en el fichero **ansible.cfg**.      
+    Al usar tanto `ansible` como `ansible-playbook` en el directorio donde tengamos el fichero, no hará falta usar el `-i`
 
 Ejemplos:
 
 | Objetivo               | Comando                                                               |
 | ---------------------- | --------------------------------------------------------------------- |
-| Comprobar conectividad | `ansible all -m ping`                                                 |
-| Ver versión del kernel | `ansible all -m command -a "uname -r"`                                |
-| Crear un directorio    | `ansible all -m file -a "path=/tmp/demo state=directory"`             |
-| Instalar un paquete    | `ansible webservers -m apt -a "name=nginx state=present become=true"` |
+| Comprobar conectividad | `ansible -i inventory all -m ping`                                                 |
+| Ver versión del kernel | `ansible -i inventory all -m command -a "uname -r"`                                |
+| Crear un directorio    | `ansible -i inventory all -m file -a "path=/tmp/demo state=directory"`             |
+| Instalar un paquete    | `ansible -i inventory webservers -m apt -a "name=nginx state=present become=true"` |
 
 !!! note
-Los comandos ad-hoc son ideales para pruebas o tareas simples, pero no son **repetibles ni versionables**.
-Para automatización real, siempre se recomienda un *playbook*.
+    Los **comandos ad-hoc** sirven para pruebas o tareas simples, pero no son **repetibles ni versionables**.       
+    Para automatización completa, siempre se recomienda un **playbook**
 
 ---
 
@@ -49,7 +52,7 @@ Cada *play* define:
 3. **Con qué permisos** (`become:`)
 4. Opcionalmente, **roles**, **variables**, o **handlers**
 
-Ejemplo básico:
+Ejemplo:
 
 ```yaml
 ---
@@ -70,12 +73,11 @@ Ejemplo básico:
 ```
 
 !!! tip
-YAML es **sensible a la indentación**.
-Usa **espacios (no tabulaciones)** y asegúrate de mantener la jerarquía clara.
+    YAML es **sensible a la indentación** y Ansible, por defecto, requiere el uso de **espacios** (no tabulaciones).
+
+    **Recomendación:** Configura tu editor de código para que **`TAB`** inserte **dos espacios** en lugar de un carácter de tabulación. Esto previene la mayoría de los errores de sintaxis.
 
 ---
-
-### Anatomía de un Playbook
 
 Cada *playbook* se compone de **bloques lógicos**:
 
@@ -91,9 +93,9 @@ Cada *playbook* se compone de **bloques lógicos**:
 
 ### Módulos Comunes
 
-Algunos módulos de uso frecuente:
+Los módulos más usados en **comandos ad-hoc** serían:
 
-| Módulo    | Propósito                               | Ejemplo                                                      |
+| Módulo    | Descripción                             | Ejemplo                                                      |
 | --------- | --------------------------------------- | ------------------------------------------------------------ |
 | `ping`    | Verificar conexión y autenticación      | `ansible all -m ping`                                        |
 | `command` | Ejecutar un comando sin shell           | `ansible all -m command -a "uptime"`                         |
@@ -103,28 +105,30 @@ Algunos módulos de uso frecuente:
 | `service` | Controlar servicios del sistema         | `ansible all -m service -a "name=nginx state=restarted"`     |
 
 !!! warning
-Usa el módulo `shell` **solo cuando sea necesario**.
-Prefiere módulos específicos (`user`, `package`, `service`, `copy`, etc.) que son **idempotentes** y más seguros.
+    Usa el módulo `shell` **solo cuando sea necesario**
+
+    Intenta usar módulos específicos (`user`, `package`, `service`, `copy`, etc.) para asegurar la **idempotencia** (obtener el mismo resultado aunque se aplique múltiples veces)
 
 ---
 
-## ⚙️ Ejemplo Práctico Paso a Paso
+## ⚙️ Ejemplo Práctico
 
 Vamos a practicar el flujo completo:
-1️⃣ Ejecutar un comando ad-hoc
-2️⃣ Crear un playbook con tareas equivalentes
+
+- Ejecutar un comando ad-hoc
+- Crear un playbook con tareas equivalentes
 
 ### 1. Comando ad-hoc
 
 Creamos un directorio `/tmp/webdemo` en `localhost`:
 
 ```bash
-ansible localhost -m file -a "path=/tmp/webdemo state=directory" -c local
+ansible localhost -m file -a "path=/tmp/webdemo state=directory"
 ```
 
 Salida esperada:
 
-```
+```shell
 localhost | CHANGED => {
     "path": "/tmp/webdemo",
     "state": "directory",
@@ -161,13 +165,13 @@ Archivo `webdemo.yml`:
 
 Ejecutar:
 
-```bash
+```shell
 ansible-playbook webdemo.yml
 ```
 
 Salida esperada:
 
-```
+```shell
 PLAY [Crear estructura de demo web] *******************************************
 
 TASK [Crear directorio de trabajo] ********************************************
@@ -193,19 +197,18 @@ localhost : ok=3  changed=2  failed=0
 
 1. **Indentación incorrecta (YAML)**
 
-   ```
-   ERROR! mapping values are not allowed here
-   ```
-
-   → Usa **2 espacios por nivel**, nunca tabulaciones.
+    ```
+    Syntax Error while loading YAML.
+        mapping values are not allowed in this context
+    ```
 
 2. **Error de conexión**
 
-   ```
-   UNREACHABLE! => Failed to connect via ssh
-   ```
+    ```
+    UNREACHABLE! => Failed to connect via ssh
+    ```
 
-   → Verifica el `inventory` y los permisos de acceso.
+    → Verifica el `inventory` y los permisos de acceso.
 
 3. **Uso indebido de `shell`**
    → Si puedes lograrlo con un módulo, **no uses `shell` o `command`**.
@@ -215,31 +218,31 @@ localhost : ok=3  changed=2  failed=0
 ### Buenas Prácticas
 
 !!! tip
-- Los comandos ad-hoc son para **acciones rápidas**, no para automatizaciones permanentes.
-- Los playbooks deben ser **claros y repetibles**, y siempre versionados en Git.
-- Usa nombres descriptivos en las tareas (`name:`).
-- Mantén un formato uniforme en YAML y agrupa tareas relacionadas.
-- Añade comentarios y usa variables para evitar valores “hardcodeados”.
+    - Los **comandos ad-hoc** son para **acciones rápidas**, no para automatizaciones permanentes.
+    - Los playbooks deben ser **claros y repetibles**, y versionados en Git.
+    - Usa nombres descriptivos en las tareas (`name:`).
+    - Mantén un formato uniforme en YAML y agrupa tareas relacionadas.
+    - Añade comentarios y usa variables para evitar valores “hardcodeados”.
 
 ---
 
-## 🧩 Ejercicio Propuesto
+## 📚 Ejercicio Propuesto
 
 Crea un **playbook llamado `system_info.yml`** que:
 
 1. Se ejecute sobre `localhost` (conexión local).
 2. Obtenga y muestre la siguiente información:
-
-   * Nombre del sistema operativo (`ansible_distribution`)
-   * Versión (`ansible_distribution_version`)
-   * Dirección IP principal (`ansible_default_ipv4.address`)
+    * Nombre del sistema operativo (`ansible_distribution`)
+    * Versión (`ansible_distribution_version`)
+    * Dirección IP principal (`ansible_default_ipv4.address`)
 3. Guarde la información en un archivo `/tmp/system_info.txt` en formato de texto plano.
 4. Muestre un mensaje final con `debug:` confirmando la creación del archivo.
 
-Pistas:
 
-* Usa el módulo `copy` con la opción `content:` para escribir directamente el texto.
-* Puedes usar **facts** de Ansible (`{{ ansible_facts.<campo> }}`).
+!!! tip
+    - Usa el módulo `copy` con la opción `content:` para escribir texto directamente en un fichero
+    - Puedes obtener información de un sistema usando el módulo `setup` o añadiendo `gather_facts: true` en el **play**
+        - Esa información queda definida en variables especiales que empiezan por `ansible_` ➜ [link docs](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html)
 
 !!! note
-Este ejercicio te enseña a combinar **módulos**, **facts** y **variables**, los tres pilares del trabajo diario con Ansible.
+    Este ejercicio te enseña a combinar **módulos**, **facts** y **variables**, los tres pilares del trabajo diario con Ansible.
