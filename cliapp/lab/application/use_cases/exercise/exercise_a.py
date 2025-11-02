@@ -2,11 +2,12 @@
 from typing import Callable, Tuple, Union, List
 from functools import partial
 from rich.text import Text
-# Importamos Puertos del Core
+import logging
+
 from lab.core.interfaces.container_port import ContainerPort
 from lab.core.interfaces.progress_notifier_port import ProgressNotifierPort
 from lab.infrastructure.adapters.container_adapter import ContainerAdapter
-import logging
+
 logger = logging.getLogger("lab")
 
 # Definimos el tipo de la funcion de chequeo que vamos a pasar al notificador
@@ -42,16 +43,23 @@ class ExerciseA:
         failed, error_output = container_provider.remove_container('machine-a')
         # if logger.isEnabledFor(logging.DEBUG):
         #     append_msg_with_datatime(instance=self,msg=f"Output: {error_output}",last=True)
-        return failed,error_output
+        return failed, error_output
 
 
     def start(self, notifier: ProgressNotifierPort) -> None:
         """
         Orquestacion del inicio: Define la secuencia de eventos.
         """
+        # event_info = EventInfo(name='Cargando fichero de contexto')
+        # spinner_handle, finished_event = notifier.start(event_info)
+        # failed, lab, error_output = repo_adapter.load()
+        # event_info.failed = failed; event_info.error_msg = error_output
+        # notifier.finish(spinner_handle, finished_event)
+        # sys.exit(1) if event_info.failed else None
+
         container_provider = ContainerAdapter()
         checks: list[Tuple[str, CheckFunc]] = [
-            ("Creating exercise containers", partial(self._create_containers, container_provider)),
+            ("Creating exercise containers", partial(self._create_containers, container_provider)), # type: ignore
             ("Installing required packages", self._install_packages),
             # Añadir mas checks...
         ]
@@ -63,7 +71,7 @@ class ExerciseA:
         """
         container_provider = ContainerAdapter()
         checks: list[Tuple[str, CheckFunc]] = [
-            ("Removing exercise containers", partial(self._delete_containers, container_provider)),
+            ("Removing exercise containers", partial(self._delete_containers, container_provider)), # type: ignore
             # Añadir mas checks...
         ]
         notifier.run_checks('finish', checks)

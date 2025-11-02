@@ -3,6 +3,7 @@
 *.pyo
 *.pyd
 test.py
+.lab_config.json
 
 # Archivos de __pycache__
 __pycache__/
