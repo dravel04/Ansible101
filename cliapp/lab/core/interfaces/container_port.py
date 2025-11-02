@@ -1,5 +1,5 @@
 # lab/core/interfaces/container_port.py
-from typing import Protocol, Tuple, Optional, Any, runtime_checkable
+from typing import Dict, Protocol, Tuple, Optional, Any, runtime_checkable
 
 @runtime_checkable
 class ContainerPort(Protocol):
@@ -16,8 +16,12 @@ class ContainerPort(Protocol):
 
     def build_image(
         self,
-        name: str,
+        image: Tuple[str, Dict[str, str]]
     ) -> Tuple[bool, str]:
+        """
+        Construye la imagen Docker con el tag `name` usando el Dockerfile especificado
+        Devuelve: (failed: bool, error_output: str)
+        """
         ...
 
     def run_container(
@@ -27,7 +31,7 @@ class ContainerPort(Protocol):
         ports: Optional[dict] = None,
     ) -> Tuple[Any, bool, str]:
         """
-        Lanza un contenedor y devuelve (container_object, failed: bool, error_message: str).
+        Lanza un contenedor y devuelve (container_object, failed: bool, error_output: str).
         """
         ...
 
@@ -36,6 +40,6 @@ class ContainerPort(Protocol):
         name: str,
     ) -> Tuple[bool, str]:
         """
-        Elimina un contenedor y devuelve (failed: bool, error_message: str).
+        Elimina un contenedor y devuelve (failed: bool, error_output: str).
         """
         ...

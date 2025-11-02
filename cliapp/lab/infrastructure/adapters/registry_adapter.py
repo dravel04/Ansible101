@@ -29,6 +29,7 @@ class RegistryAdapter:
                 with resources.open_text(package, containerfile_name) as f:
                     content = f.read()
                 name = containerfile_name.replace(".Containerfile", "")
+                name = name.replace("docker-","lab-").replace("podman-","lab-")
                 tag = f"{name}:latest"
                 LAB_IMAGES[name] = {
                     "content": content,

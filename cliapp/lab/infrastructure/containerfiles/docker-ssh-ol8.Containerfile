@@ -14,10 +14,11 @@ RUN groupadd -g 5000 ansible && \
   chown -R ansible:ansible /home/ansible/.ssh && \
   chmod 700 /home/ansible/.ssh
 
-COPY id_ansible.pub /home/ansible/.ssh/authorized_keys
-
-RUN chown -R ansible:ansible /home/ansible/.ssh/authorized_keys && \
-  chmod 600 /home/ansible/.ssh/authorized_keys
+# COPY id_ansible.pub /home/ansible/.ssh/authorized_keys
+RUN echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICU2l2lDVI5HquRM/mXLcVY76RF/S8PeQJRYIlcPvEhN user@ansible-lab" \
+    > /home/ansible/.ssh/authorized_keys && \
+    chown ansible:ansible /home/ansible/.ssh/authorized_keys && \
+    chmod 600 /home/ansible/.ssh/authorized_keys
 
 EXPOSE 22
 

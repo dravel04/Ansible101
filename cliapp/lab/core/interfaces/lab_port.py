@@ -1,5 +1,5 @@
 # lab/core/interfaces/lab_port.py
-from typing import Protocol, Tuple, runtime_checkable
+from typing import Protocol, Tuple, runtime_checkable, Dict
 
 from lab.core.interfaces.container_port import ContainerPort
 
@@ -18,7 +18,7 @@ class LabPort(Protocol):
     Define el contrato para la inicializacion tecnica 
     de la infraestructura del Lab (Ej: inicializar el lab, construir imagenes, etc).
     """
-    def init(self, container_service: ContainerPort) -> Tuple[bool, str]:
+    def init(self, container_service: ContainerPort, LAB_IMAGES: Dict[str, Dict[str, str]]) -> Tuple[bool, str]:
         """
         Ejecuta las dependencias de inicializacion
         """

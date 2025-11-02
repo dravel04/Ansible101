@@ -1,4 +1,4 @@
-from typing import Protocol, runtime_checkable
+from typing import Protocol, Tuple, runtime_checkable
 from threading import Event
 
 from lab.core.dtos.EventInfo import EventInfo
@@ -8,7 +8,7 @@ class ProgressNotifierPort(Protocol):
     """
     Contrato para notificar el progreso de la ejecución de un caso de uso.
     """
-    def start(self, event_info: EventInfo) -> Event:
+    def start(self, event_info: EventInfo) -> Tuple[Event, Event]:
         """
         Inicia un spinner con el texto dado.
         Devuelve un objeto que se usará para detener el spinner más tarde.

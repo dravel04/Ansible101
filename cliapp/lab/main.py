@@ -2,13 +2,17 @@ import typer
 from typing_extensions import Annotated
 from rich.logging import RichHandler
 import logging
+import sys
+
 from lab.infrastructure.ui.progress_notifier_adapter import ProgressNotifierAdapter
+
+IS_PACKAGED = getattr(sys, "frozen", False) or "__compiled__" in globals()
 
 # Configuracion global del logger
 logger = logging.getLogger("lab")
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(message)s")
-handler = RichHandler(rich_tracebacks=True)
+handler = RichHandler(rich_tracebacks=True, show_path=not IS_PACKAGED)
 handler.setFormatter(formatter)
 handler.setLevel(logging.NOTSET)
 logger.addHandler(handler)
@@ -25,7 +29,7 @@ def init(
     # y typer.Argument() si quieres añadir metadatos (como la ayuda)
     engine: Annotated[str, typer.Argument(help="Container engine a usar")] = "docker",
     debug: bool = typer.Option(False, "--debug", "-d", help="Activa el modo debug"),
-    force: bool = typer.Option(False, "--force", "-f", help="Fuerza la inicializacion de un nuevo lab")
+    # force: bool = typer.Option(False, "--force", "-f", help="Fuerza la inicializacion de un nuevo lab")
 ):
     """
     Inicia el laboratorio y sus dependencias
@@ -33,17 +37,17 @@ def init(
     from lab.infrastructure.adapters.lab_repository_adapter import LabRepositoryAdapter
     from lab.infrastructure.adapters.lab_adapter import LabAdapter
     from lab.application.use_cases.lab_initializer import LabInitializer
+    from lab.core.entities.lab import Lab
     if debug:
         logger.setLevel(logging.DEBUG)
-    repo_adapter = LabRepositoryAdapter()
-    service = LabAdapter()
-    lab = LabInitializer()
-    lab.execute(
-        service=service,
-        repo_adapter=repo_adapter,
-        engine=engine,
-        force=force
+
+    LabInitializer().execute(
+        service=LabAdapter(),
+        repo_adapter=LabRepositoryAdapter(),
+        lab=Lab(engine=engine),
+        # force=force
     )
+
 
 @app.command()
 def start(
@@ -73,6 +77,7 @@ def start(
     exercise = cls(exercisename)
     notifier = ProgressNotifierAdapter()
     exercise.start(notifier)
+
 
 @app.command()
 def grade(
