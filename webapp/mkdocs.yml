@@ -31,4 +31,5 @@ nav:
   - Contenido:
       - Introduccion: introduction.md
       - Fundamentos: basics.md
+      - Variables: vars.md
       - Admonitions: admonitions_list.md
