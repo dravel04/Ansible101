@@ -1,4 +1,4 @@
-# 🧩 Módulo 1: Introducción a Ansible
+# 🧩 1: Introducción a Ansible
 
 ## 🎯 Objetivos
 

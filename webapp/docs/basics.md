@@ -1,4 +1,4 @@
-# ⚙️ Módulo 2: Fundamentos de Ansible
+# 🧩 2: Fundamentos de Ansible
 
 ## 🎯 Objetivos
 

@@ -1,4 +1,4 @@
-# 🧩 Módulo 3: Prioridad de variables en Ansible
+# 🧩 3: Prioridad de variables en Ansible
 
 ## 🎯 Objetivos
 
