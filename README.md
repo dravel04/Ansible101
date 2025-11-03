@@ -2,12 +2,27 @@
 Para mayor facilidad exportaremos nuestro paquete mediante `pip`.
 
 ## Compilar el programa
+Fichero único:
 ```shell
 python -m nuitka \
   --standalone \
   --onefile \
   --static-libpython=no \
   --include-data-dir=lab/infrastructure/containerfiles=lab/infrastructure/containerfiles \
+  lab/main.py \
+  --output-filename=lab-cli
+```
+
+Carpeta con binario y dependencias:
+```shell
+python -m nuitka \
+  --standalone \
+  --assume-yes-for-downloads \
+  --no-onefile \
+  --static-libpython=no \
+  --include-data-dir=lab/infrastructure/containerfiles=lab/infrastructure/containerfiles \
+  --lto=yes \
+  --pgo-python=lab/main.py \
   lab/main.py \
   --output-filename=lab-cli
 ```
