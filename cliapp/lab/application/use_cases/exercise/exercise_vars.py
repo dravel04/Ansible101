@@ -7,13 +7,12 @@ import time
 
 from lab.core.dtos.EventInfo import EventInfo
 from lab.core.interfaces.progress_notifier_port import ProgressNotifierPort
-from lab.infrastructure.adapters.container_adapter import ContainerAdapter
 
 logger = logging.getLogger("lab")
 
 class ExerciseVars:
     """
-    Logica para inicializacion del ejercicio "Variables - Practica"
+    Logica para inicializacion del ejercicio "Role - Practica"
     """
     def __init__(self, name: str, debug_msg: List[Union[str, Text]] = []):
         self.name = name
@@ -34,14 +33,13 @@ class ExerciseVars:
         return failed, error_output
 
     def _remove_file_in_cwd(self) -> Tuple[bool, str]:
-        import os
+        from pathlib import Path
         import time
         failed = False
         error_output = ""
         try:
-            cwd = os.getcwd()
-            file_path = os.path.join(cwd, 'vars_lab.yml')
-            os.remove(file_path)
+            file_path = Path.cwd() / "vars_lab.yml"
+            file_path.unlink() # borra el fichero
             time.sleep(1)
         except:
             failed = True

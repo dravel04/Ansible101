@@ -260,6 +260,11 @@ También puedes definir variables dinámicas durante la ejecución con `set_fact
 
 ## 📚 Ejercicio Práctico
 
+Para iniciar el ejercicio, ejecuta:
+```shell
+lab start vars
+```
+
 Crea un playbook llamado `vars_lab.yml` que:
 
 1. Se ejecute sobre `localhost`
@@ -276,7 +281,19 @@ Crea un playbook llamado `vars_lab.yml` que:
     ```
 4. Prueba sobrescribir `web_port` desde la línea de comandos con `-e`.
 
+Para evaluar el ejercicio, ejecuta:
+```shell
+lab grade vars
+```
+
+!!! abstract
+    - [Módulo debug](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/debug_module.html)
+    - [Módulo copy](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-content)
+
 🔬 **Desafío adicional:**
 
   - Agrega una tarea que muestre con `debug:` la ruta completa del archivo creado
   - Agrega una tarea que muestre con `debug:` el contenido del archivo creado (se puede hacer en varios pasos)
+
+!!! abstract
+  - [Módulo slurp](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/slurp_module.html)
