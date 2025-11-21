@@ -41,18 +41,19 @@ markdown_extensions:
 
 4. **Manejo de Tareas, Roles y Handlers**
 
+5. **Templates**
 
-5. **Configuración de Servidores Web**
+6. **Configuración de Servidores Web**
 
    * Instalación y configuración de Apache y Nginx
    * Configuración de un servidor web y un reverse proxy
 
-6. **Gestión de Bases de Datos**
+7. **Gestión de Bases de Datos**
 
    * Instalación y configuración de PostgreSQL
    * Ejecución de queries y manejo de bases de datos
 
-7. **Proyectos Finales**
+8. **Proyectos Finales**
 
    * Integración de todo lo aprendido en un proyecto práctico
    * Ejemplo de automatización completa desde cero

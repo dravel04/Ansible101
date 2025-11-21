@@ -33,4 +33,5 @@ nav:
       - Fundamentos: basics.md
       - Variables: vars.md
       - Tasks, Roles y Handlers: task_roles_handlers.md
+      - Templates: templates.md
       - Admonitions: admonitions_list.md
