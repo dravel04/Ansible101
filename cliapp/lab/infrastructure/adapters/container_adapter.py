@@ -82,12 +82,18 @@ class ContainerAdapter:
         container = None
         try:
             assert self.client is not None
+            try:
+                old = self.client.containers.get(name)
+                old.remove(force=True)
+            except Exception as e:
+                pass
+
             container = self.client.containers.run(
                 image=image,
                 detach=True,
                 name=name,
                 hostname=name,
-                ports=ports,
+                ports=ports
             )
             return container, failed, error_output
         except Exception as e:

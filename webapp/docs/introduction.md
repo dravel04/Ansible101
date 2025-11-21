@@ -18,9 +18,9 @@ Al finalizar este módulo, serás capaz de:
 
 Ansible es una **herramienta de automatización IT** que permite gestionar configuraciones, desplegar aplicaciones y orquestar tareas complejas de infraestructura de forma **declarativa** y **sin agentes**.
 
-* **Sin agentes: No requiere instalar software en los servidores gestionados.
-* **Usa SSH: La comunicación se realiza mediante SSH (o WinRM en Windows).
-* **Declarativo: Describe el estado deseado, no los pasos para alcanzarlo.
+* **Sin agentes:** No requiere instalar software en los servidores gestionados.
+* **Usa SSH:** La comunicación se realiza mediante SSH (o WinRM en Windows).
+* **Declarativo:** Describe el estado deseado, no los pasos para alcanzarlo.
 
 !!! note
     Ansible fue creado por Michael DeHaan en 2012 y actualmente es mantenido por **Red Hat**.

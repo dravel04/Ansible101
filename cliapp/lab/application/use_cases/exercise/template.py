@@ -17,7 +17,7 @@ CheckFunc = Callable[[], Tuple[bool, str]]
 
 class ExerciseA:
     """
-    Logica de negocio especifica para la evaluacion y gestion del ejercicio
+    Logica para inicializacion del ejercicio "Variables - Practica"
     """
     def __init__(self, name: str, debug_msg: List[Union[str, Text]] = []):
         self.name = name
@@ -37,6 +37,8 @@ class ExerciseA:
     def _install_packages(self) -> Tuple[bool, str]:
         """ Implementa otra tarea de la secuencia. """
         # ... logica ...
+        import time
+        time.sleep(5)
         return True, "ERROR: Paquetes no instalados correctamente"
     
     def _delete_containers(self, container_provider: ContainerPort):
@@ -64,6 +66,13 @@ class ExerciseA:
         event_info = EventInfo(name='Creando container para el ejercicio')
         spinner_handle, finished_event = notifier.start(event_info)
         failed, error_output = self._create_containers(container_service)
+        event_info.failed = failed; event_info.error_msg = error_output
+        notifier.finish(spinner_handle, finished_event)
+        sys.exit(1) if event_info.failed else None
+
+        event_info = EventInfo(name='Instalando paquetes')
+        spinner_handle, finished_event = notifier.start(event_info)
+        failed, error_output = self._install_packages()
         event_info.failed = failed; event_info.error_msg = error_output
         notifier.finish(spinner_handle, finished_event)
         sys.exit(1) if event_info.failed else None

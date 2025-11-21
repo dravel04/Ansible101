@@ -269,7 +269,7 @@ Crea un playbook llamado `vars_lab.yml` que:
     web_port: 8080
     web_root: /tmp/demo
     ```
-3. Crea el directorio y un archivo `index.html` con el contenido:
+3. Crea el directorio `{{ web_root }}` y dentro de este un archivo `index.html` con el contenido:
 
     ```
     Servidor escuchando en el puerto {{ web_port }}
@@ -279,4 +279,4 @@ Crea un playbook llamado `vars_lab.yml` que:
 🔬 **Desafío adicional:**
 
   - Agrega una tarea que muestre con `debug:` la ruta completa del archivo creado
-  - Agrega una tarea que muestre con `debug:` el contenido del archivo creado
+  - Agrega una tarea que muestre con `debug:` el contenido del archivo creado (se puede hacer en varios pasos)

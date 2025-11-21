@@ -1,0 +1,33 @@
+---
+- name: Ejercicio vars
+  hosts: localhost
+  vars:
+    web_port: 8080
+    web_root: /tmp/demo
+  tasks:
+    - name: Creamos el directorio {{ web_root }}
+      ansible.builtin.file:
+        path: "{{ web_root }}"
+        state: directory
+    
+    - name: Creamos el fichero index.html
+      ansible.builtin.copy:
+        content: |
+          Servidor escuchando en el puerto {{ web_port }}
+        dest: "{{ web_root }}/index.html"
+
+    - name: Leemos el contenido de index.html
+      ansible.builtin.slurp:
+        src: "{{ web_root }}/index.html"
+      register: slurp_content
+
+    - name: Leemos el contenido de index.html
+      ansible.builtin.shell: |
+        cat {{ web_root }}/index.html
+      register: file_content
+    
+    - ansible.builtin.debug:
+        msg:
+          - "El contenido del fichero {{ web_root }}/index.html es:"
+          - "{{ slurp_content.content | b64decode | trim }}"
+          - "{{ file_content.stdout | trim }}"
