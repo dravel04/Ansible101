@@ -1,6 +1,5 @@
 # lab/infrastructure/adapters/lab_adapter.py
 from typing import Tuple, Dict
-from lab.core.entities.lab import Lab
 import logging
 
 from lab.core.interfaces.container_port import ContainerPort

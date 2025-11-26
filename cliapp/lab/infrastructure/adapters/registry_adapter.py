@@ -23,12 +23,11 @@ class RegistryAdapter:
         LAB_IMAGES = {}
         package = "lab.infrastructure.containerfiles"
 
-        for containerfile_name in resources.contents(package):
-            if containerfile_name.endswith(".Containerfile"):
-                # Leemos el contenido del containerfile dentro del paquete
-                with resources.open_text(package, containerfile_name) as f:
-                    content = f.read()
-                name = containerfile_name.replace(".Containerfile", "")
+        for containerfile in resources.files(package).iterdir():
+            if containerfile.name.endswith(".Containerfile"):
+                # Leer contenido del archivo usando el propio objeto
+                content = containerfile.read_text()
+                name = containerfile.name.replace(".Containerfile", "")
                 name = name.replace("docker-","lab-").replace("podman-","lab-")
                 tag = f"{name}:latest"
                 LAB_IMAGES[name] = {

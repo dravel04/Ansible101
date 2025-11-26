@@ -4,9 +4,10 @@ class Lab:
     """
     Representa el estado del Laboratorio
     """
-    VALID_ENGINES = ["docker", "podman"]
+    # VALID_ENGINES = ["docker", "podman"]
+    VALID_ENGINES = ["podman"]
 
-    def __init__(self, engine: str = "docker"):
+    def __init__(self, engine: str = "podman"):
         self.engine = engine
 
     @property

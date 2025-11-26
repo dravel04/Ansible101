@@ -27,7 +27,7 @@ app = typer.Typer(
 def init(
     # Un argumento posicional se define simplemente con el tipo
     # y typer.Argument() si quieres añadir metadatos (como la ayuda)
-    engine: Annotated[str, typer.Argument(help="Container engine a usar")] = "docker",
+    engine: Annotated[str, typer.Argument(help="Container engine a usar")] = "podman",
     debug: bool = typer.Option(False, "--debug", "-d", help="Activa el modo debug"),
     # force: bool = typer.Option(False, "--force", "-f", help="Fuerza la inicializacion de un nuevo lab")
 ):

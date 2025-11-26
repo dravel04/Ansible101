@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger("lab")
 
 class ContainerAdapter:
-    def __init__(self, engine="docker"):
+    def __init__(self, engine="podman"):
         self.engine = engine
         self.client = None
 
@@ -34,12 +34,12 @@ class ContainerAdapter:
             error_output = f"No se puede contactar con la API del cliente '{self.engine}'. Revise que este inicializado con el comando `{self.engine} ps`"
             return failed, error_output
 
-        if self.engine == "docker":
-            import docker
-            self.client = docker.from_env()
-        # elif engine == "podman":
-        #     import podman
-        #     self.client = podman.from_env()
+        if self.engine == "podman":
+            import podman
+            self.client = podman.from_env()
+        # elif self.engine == "docker":
+        #     import docker
+        #     self.client = docker.from_env()
         return failed, error_output
 
     def build_image(
@@ -52,19 +52,21 @@ class ContainerAdapter:
 
         try:
             import tempfile
+            from pathlib import Path
             assert self.client is not None
-            with tempfile.NamedTemporaryFile(mode='w+', delete=False, suffix='Containerfile') as tmp_file:
-                tmp_file.write(info['content'])
-                tmp_file.flush()  # aseguramos que todo se escriba
-                dockerfile_path = tmp_file.name
-
-            # Construir la imagen usando el Containerfile temporal
-            self.client.images.build(
-                path=".",  # contexto actual
-                dockerfile=dockerfile_path,
-                tag=info['tag'],
-                rm=True
-            )
+            # Creamos un directorio limpio en /tmp
+            with tempfile.TemporaryDirectory() as ctx_dir:
+                ctx = Path(ctx_dir)
+                # Creamos el Containerfile dentro del contexto limpio
+                dockerfile_path = ctx / "Containerfile"
+                dockerfile_path.write_text(info["content"])
+                # Construir la imagen usando el Containerfile temporal
+                self.client.images.build(
+                    path=str(ctx),
+                    dockerfile="Containerfile",
+                    tag=info["tag"],
+                    rm=True
+                )
         except Exception as e:
             failed = True
             error_output = f"{type(e).__name__}: {e}"
