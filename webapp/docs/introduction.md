@@ -361,9 +361,15 @@ localhost | SUCCESS => {
 Crea un entorno básico y verifica conectividad entre tu nodo de control y un servidor remoto.
 
 1. Instala Ansible.
-2. Configura un archivo `inventory` con al menos **un host remoto**.
+2. Configura un archivo `inventory` con **localhost** como host remoto
 3. Crea un playbook `check.yml` que:
     - Use el módulo `ping`
 
 !!! tip
-    Si todo está bien configurado, deberías ver un mensaje de éxito para cada host
+    Si todo está bien configurado, deberías ver un mensaje de éxito similar a:
+    ```shell
+    localhost | SUCCESS => {
+        "changed": false,
+        "ping": "pong"
+    }
+    ```
