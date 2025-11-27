@@ -12,7 +12,7 @@ logger = logging.getLogger("lab")
 
 class GraderWebservers:
     """
-    Logica para evaluar del ejercicio "Role - Practica"
+    Logica para evaluar del ejercicio "WebServers - Practica"
     """
     def __init__(self, name: str, debug_msg: List[Union[str, Text]] = []):
         self.name = name

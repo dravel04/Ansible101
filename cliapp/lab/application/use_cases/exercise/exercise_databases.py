@@ -13,9 +13,9 @@ from lab.infrastructure.adapters.container_adapter import ContainerAdapter
 
 logger = logging.getLogger("lab")
 
-class ExerciseWebServers:
+class ExerciseDatabases:
     """
-    Logica para inicializacion del ejercicio "Webservers - Practica"
+    Logica para inicializacion del ejercicio "Databases - Practica"
     """
     def __init__(self, name: str, debug_msg: List[Union[str, Text]] = []):
         self.name = name
@@ -27,8 +27,8 @@ class ExerciseWebServers:
         """
         container, failed, error_output = container_provider.run_container(
             image="lab-ssh-ol8",
-            name="web1",
-            ports={"22/tcp": 2232, "80/tcp": 8080},
+            name="db1",
+            ports={"22/tcp": 2233},
         )
         return failed, error_output
 
@@ -41,11 +41,11 @@ class ExerciseWebServers:
         error_output = ''
         time.sleep(1)
         try:
-            entry_name = "web1"
+            entry_name = "db1"
             desired_entry = (
-                "Host web1\n"
+                "Host db1\n"
                 "    Hostname localhost\n"
-                "    Port 2232\n"
+                "    Port 2233\n"
                 "    User ansible\n"
                 "    IdentityFile ~/.ssh/id_lab\n"
                 "    StrictHostKeyChecking no\n"
@@ -96,7 +96,7 @@ class ExerciseWebServers:
             config_file.write_text("[defaults]\ninventory = ./inventory\nhost_key_checking = False\n")
             config_file = Path.cwd() / "inventory"
             config_file.touch(exist_ok=True)
-            config_file.write_text("[webservers]\nweb1 ansible_host=web1\n")
+            config_file.write_text("[dbservers]\ndb1 ansible_host=db1\n")
             time.sleep(1)
         except: 
             failed = True
@@ -150,20 +150,18 @@ class ExerciseWebServers:
         failed = False
         error_output = ""
         try:
-            file_path = Path.cwd() / "webservers.yml"
+            file_path = Path.cwd() / "databases.yml"
             file_path.touch(exist_ok=True)
             time.sleep(1)
         except: 
             failed = True
-            error_output = "Fallo en la creacion del fichero: webservers.yml"
+            error_output = "Fallo en la creacion del fichero: databases.yml"
         return failed, error_output
 
     def _delete_containers(self, container_provider: ContainerPort) -> Tuple[bool, str]:
         failed = False
         error_output = ''
-        failed, error_output = container_provider.remove_container('web1')
-        # if logger.isEnabledFor(logging.DEBUG):
-        #     append_msg_with_datatime(instance=self,msg=f"Output: {error_output}",last=True)
+        failed, error_output = container_provider.remove_container('db1')
         return failed, error_output
 
     def start(self, notifier: ProgressNotifierPort) -> None:
@@ -172,7 +170,7 @@ class ExerciseWebServers:
         """
         container_service = ContainerAdapter()
         container_service.init_client()
-        event_info = EventInfo(name='Creando container: web1')
+        event_info = EventInfo(name='Creando container: db1')
         spinner_handle, finished_event = notifier.start(event_info)
         failed, error_output = self._create_containers(container_service)
         event_info.failed = failed; event_info.error_msg = error_output
@@ -193,35 +191,21 @@ class ExerciseWebServers:
         notifier.finish(spinner_handle, finished_event)
         sys.exit(1) if event_info.failed else None
 
-        event_info = EventInfo(name='Creando ansible role: Apache')
+        event_info = EventInfo(name='Creando ansible role: PostgreSQL')
         spinner_handle, finished_event = notifier.start(event_info)
-        failed, error_output = self._role_creation(role_name='apache')
+        failed, error_output = self._role_creation(role_name='postgresql')
         event_info.failed = failed; event_info.error_msg = error_output
         notifier.finish(spinner_handle, finished_event)
         sys.exit(1) if event_info.failed else None
 
-        event_info = EventInfo(name='Limpiando carpetas NO necesarias del rol Apache')
+        event_info = EventInfo(name='Limpiando carpetas NO necesarias del rol PostgreSQL')
         spinner_handle, finished_event = notifier.start(event_info)
-        failed, error_output = self._role_cleanup(role_name='apache')
+        failed, error_output = self._role_cleanup(role_name='postgresql')
         event_info.failed = failed; event_info.error_msg = error_output
         notifier.finish(spinner_handle, finished_event)
         sys.exit(1) if event_info.failed else None
 
-        event_info = EventInfo(name='Creando ansible role: Nginx')
-        spinner_handle, finished_event = notifier.start(event_info)
-        failed, error_output = self._role_creation(role_name='nginx')
-        event_info.failed = failed; event_info.error_msg = error_output
-        notifier.finish(spinner_handle, finished_event)
-        sys.exit(1) if event_info.failed else None
-
-        event_info = EventInfo(name='Limpiando carpetas NO necesarias del rol Nginx')
-        spinner_handle, finished_event = notifier.start(event_info)
-        failed, error_output = self._role_cleanup(role_name='nginx')
-        event_info.failed = failed; event_info.error_msg = error_output
-        notifier.finish(spinner_handle, finished_event)
-        sys.exit(1) if event_info.failed else None
-
-        event_info = EventInfo(name='Creacion del playbook principal: webservers.yml')
+        event_info = EventInfo(name='Creacion del playbook principal: databases.yml')
         spinner_handle, finished_event = notifier.start(event_info)
         failed, error_output = self._create_playbook()
         event_info.failed = failed; event_info.error_msg = error_output
@@ -235,7 +219,7 @@ class ExerciseWebServers:
         """
         container_service = ContainerAdapter()
         container_service.init_client()
-        event_info = EventInfo(name='Eliminando container web1')
+        event_info = EventInfo(name='Eliminando container db1')
         spinner_handle, finished_event = notifier.start(event_info)
         failed, error_output = self._delete_containers(container_service)
         event_info.failed = failed; event_info.error_msg = error_output

@@ -36,4 +36,5 @@ nav:
       - Tasks, Roles y Handlers: task_roles_handlers.md
       - Templates: templates.md
       - Configurar WebServers: config_webservers.md
+      - Configurar Databases: config_databases.md
       - Admonitions: admonitions_list.md
