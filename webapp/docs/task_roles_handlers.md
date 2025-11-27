@@ -281,6 +281,12 @@ Características:
 - Se pueden notificar varias veces, pero solo se ejecutan una vez
 - Pueden estar dentro de un **rol** en su carpeta `handlers/`
 
+!!! tip
+    Se puede forzar que los handlers se ejecuten en un determinado momento usando
+    ```yaml
+    - meta: flush_handlers
+    ```
+
 ---
 
 ### 🧬 Encadenamiento de Handlers

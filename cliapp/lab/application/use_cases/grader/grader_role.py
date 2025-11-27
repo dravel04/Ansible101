@@ -60,6 +60,7 @@ class GraderRole:
             failed = True
             error_output = f"{type(e).__name__}: {e}"
             return failed, error_output
+
     def _verify_directory(self) -> Tuple[bool, str]:
         from pathlib import Path
         directory_path = "/tmp/demo"
@@ -138,7 +139,7 @@ class GraderRole:
 
         event_info = EventInfo(name='Verificamos el contenido del fichero /tmp/demo/index.html')
         spinner_handle, finished_event = notifier.start(event_info)
-        failed, error_output = self._verify_playbook_content()
+        failed, error_output = self._verify_file_content()
         event_info.failed = failed; event_info.error_msg = error_output
         notifier.finish(spinner_handle, finished_event)
         sys.exit(1) if event_info.failed else None

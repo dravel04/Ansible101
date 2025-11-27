@@ -14,8 +14,10 @@ dependencies = [
   "typer==0.17.4",
   "typing_extensions==4.15.0",
   "rich==14.1.0",
-  "docker==7.1.0",
+  "podman==5.6.0",
+  "paramiko==4.0.0",
 ]
+# "docker==7.1.0",
 
 [project.scripts]
 # Define los scripts de consola que se instalan con el paquete.
