@@ -1,3 +1,7 @@
+# This file is part of LAB CLI.
+# Copyright (C) 2025 Rafael Marín Sánchez (dravel04 - rafa marsan)
+# Licensed under the GNU GPLv3. See LICENSE file for details.
+
 # lab/infrastructure/adapters/registry_adapter.py
 from lab.application.use_cases.exercise import EXERCISES
 from lab.application.use_cases.grader import GRADERS

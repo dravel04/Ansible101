@@ -1,3 +1,7 @@
+# This file is part of LAB CLI.
+# Copyright (C) 2025 Rafael Marín Sánchez (dravel04 - rafa marsan)
+# Licensed under the GNU GPLv3. See LICENSE file for details.
+
 # lab/core/interfaces/lab_repository.py
 from typing import Protocol, Tuple, runtime_checkable
 from lab.core.entities.lab import Lab

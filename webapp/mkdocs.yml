@@ -39,4 +39,4 @@ nav:
       - Configurar WebServers: config_webservers.md
       - Configurar Databases: config_databases.md
       - Proyecto final: final_project.md
-      - Admonitions: admonitions_list.md
+      # - Admonitions: admonitions_list.md

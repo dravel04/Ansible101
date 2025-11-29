@@ -1,3 +1,7 @@
+# This file is part of LAB CLI.
+# Copyright (C) 2025 Rafael Marín Sánchez (dravel04 - rafa marsan)
+# Licensed under the GNU GPLv3. See LICENSE file for details.
+
 import typer
 from typing_extensions import Annotated
 from rich.logging import RichHandler
