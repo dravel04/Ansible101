@@ -1,0 +1,1674 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../basics/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Introduccion - Ansible101</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-introduccion-a-ansible" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Ansible101" class="md-header__button md-logo" aria-label="Ansible101" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ansible101
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Introduccion
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/dravel04/Ansible101" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Ansible101" class="md-nav__button md-logo" aria-label="Ansible101" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ansible101
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/dravel04/Ansible101" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contenido
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contenido
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduccion
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduccion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Objetivos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 Teoría
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 Teoría">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es Ansible?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arquitectura-basica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura Básica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conceptos-fundamentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceptos Fundamentales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conceptos Fundamentales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nodo-de-control-control-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🖥️ Nodo de Control (Control Node)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nodos-gestionados-managed-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Nodos Gestionados (Managed Nodes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inventario-inventory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Inventario (Inventory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tareas-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧱 Tareas (Tasks)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛎️ Handlers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ▶️ Plays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playbooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎮 Playbooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modulos-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Módulos (Modules)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔌 Plugins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#colecciones-collections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Colecciones (Collections)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#archivos-fundamentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archivos Fundamentales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejemplo-practico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Ejemplo Práctico
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Ejemplo Práctico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-instalar-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Instalar Ansible
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-crear-un-inventario-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Crear un Inventario Simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-validar-configuracion-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Validar configuración local
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errores-comunes-y-buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚨 Errores Comunes y Buenas Prácticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Errores Comunes y Buenas Prácticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#errores-comunes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores Comunes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buenas Prácticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-propuesto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Ejercicio Propuesto
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vars/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../task_roles_handlers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tasks, Roles y Handlers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config_webservers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configurar WebServers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config_databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configurar Databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../final_project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proyecto final
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Objetivos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 Teoría
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 Teoría">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es Ansible?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arquitectura-basica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura Básica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conceptos-fundamentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceptos Fundamentales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conceptos Fundamentales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nodo-de-control-control-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🖥️ Nodo de Control (Control Node)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nodos-gestionados-managed-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 Nodos Gestionados (Managed Nodes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inventario-inventory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Inventario (Inventory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tareas-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧱 Tareas (Tasks)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛎️ Handlers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ▶️ Plays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playbooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎮 Playbooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modulos-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Módulos (Modules)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔌 Plugins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#colecciones-collections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Colecciones (Collections)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#archivos-fundamentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archivos Fundamentales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejemplo-practico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Ejemplo Práctico
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Ejemplo Práctico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-instalar-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Instalar Ansible
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-crear-un-inventario-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Crear un Inventario Simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-validar-configuracion-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Validar configuración local
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errores-comunes-y-buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚨 Errores Comunes y Buenas Prácticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Errores Comunes y Buenas Prácticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#errores-comunes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores Comunes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buenas Prácticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-propuesto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Ejercicio Propuesto
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<!-- This file is part of LAB CLI. -->
+<!-- Copyright (C) 2025 Rafael Marín Sánchez (dravel04 - rafa marsan) -->
+<!-- Licensed under the GNU GPLv3. See LICENSE file for details. -->
+
+<h1 id="1-introduccion-a-ansible">🧩 1: Introducción a Ansible</h1>
+<h2 id="objetivos">🎯 Objetivos</h2>
+<p>Al finalizar este módulo, serás capaz de:</p>
+<ol>
+<li>Comprender qué es Ansible y para qué se utiliza en la automatización de sistemas</li>
+<li>Instalar Ansible en un entorno Linux utilizando el gestor de paquetes correspondiente</li>
+<li>Configurar los archivos básicos (<code>inventory</code>, <code>ansible.cfg</code>) para ejecutar tareas</li>
+<li>Ejecutar un primer <em>playbook</em> de ejemplo en el de laboratorio</li>
+<li>Verificar la conectividad y autenticación entre el nodo de control y los nodos gestionados</li>
+</ol>
+<hr />
+<h2 id="teoria">🧠 Teoría</h2>
+<h3 id="que-es-ansible">¿Qué es Ansible?</h3>
+<p>Ansible es una <strong>herramienta de automatización IT</strong> que permite gestionar configuraciones, desplegar aplicaciones y orquestar tareas complejas de infraestructura de forma <strong>declarativa</strong> y <strong>sin agentes</strong>.</p>
+<ul>
+<li><strong>Sin agentes:</strong> No requiere instalar software en los servidores gestionados.</li>
+<li><strong>Usa SSH:</strong> La comunicación se realiza mediante SSH (o WinRM en Windows).</li>
+<li><strong>Declarativo:</strong> Describe el estado deseado, no los pasos para alcanzarlo.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ansible fue creado por Michael DeHaan en 2012 y actualmente es mantenido por <strong>Red Hat</strong>.
+Es una de las herramientas más usadas en entornos <strong>DevOps</strong>, junto con Terraform y Puppet.</p>
+</div>
+<h3 id="arquitectura-basica">Arquitectura Básica</h3>
+<div class="highlight"><pre><span></span><code>┌────────────────────┐
+│ Nodo de Control    │
+│ (ansible instalado)│
+└────────┬───────────┘
+         │ SSH
+         ▼
+┌─────────────────────┐
+│ Nodos Gestionados   │
+│ (servidores remotos)│
+└─────────────────────┘
+</code></pre></div>
+<h3 id="conceptos-fundamentales">Conceptos Fundamentales</h3>
+<p>Antes de comenzar a ejecutar comandos o playbooks, vamosa a repasar los <strong>conceptos básicos</strong> del ecosistema de Ansible:</p>
+<h4 id="nodo-de-control-control-node">🖥️ Nodo de Control (<em>Control Node</em>)</h4>
+<p>Es la máquina que tiene instalado el motor y desde la que ejecutamos los comandos de Ansible (<code>ansible</code>, <code>ansible-playbook</code>, <code>ansible-vault</code>, etc.).</p>
+<ul>
+<li>Puede ser un <strong>ordenador local</strong>, un <strong>servidor</strong> o incluso un <strong>contenedor</strong> (Execution Environment).</li>
+<li>Es el punto central de operación: desde aquí se orquestan las tareas hacia los nodos gestionados.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Cualquier máquina con Python y acceso SSH a los servidores gestionados puede actuar como nodo de control.</p>
+</div>
+<hr />
+<h4 id="nodos-gestionados-managed-nodes">💻 Nodos Gestionados (<em>Managed Nodes</em>)</h4>
+<p>También llamados <strong>hosts</strong>, son los dispositivos o servidores que Ansible administra.
+Pueden ser servidores Linux, Windows o cualquier sistema accesible por red, donde se pueda instalar python (se usa como dependencia)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Ansible no se instala en ellos</strong> El nodo de control se conecta mediante SSH o WinRM y genera los recursos temporales necesarios</p>
+</div>
+<hr />
+<h4 id="inventario-inventory">📋 Inventario (<em>Inventory</em>)</h4>
+<p>Es una <strong>lista de nodos gestionados</strong>, organizada por grupos.</p>
+<p>El inventario puede ser:</p>
+<ul>
+<li>Un archivo estático (<code>inventory</code>, <code>hosts</code>)</li>
+<li>O una fuente dinámica (por ejemplo, AWS EC2, VMware, Docker, etc.)</li>
+</ul>
+<p>Ejemplo básico de inventario estático:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[webservers]</span>
+<span class="na">web1 ansible_host</span><span class="o">=</span><span class="s">192.168.1.10</span>
+<span class="na">web2 ansible_host</span><span class="o">=</span><span class="s">192.168.1.11</span>
+
+<span class="k">[dbservers]</span>
+<span class="na">db1 ansible_host</span><span class="o">=</span><span class="s">192.168.1.20</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>El inventario también puede definir <strong>variables por host o grupo</strong>, que luego se usan dentro de los playbooks.</p>
+</div>
+<hr />
+<h4 id="tareas-tasks">🧱 Tareas (<em>Tasks</em>)</h4>
+<p>Cada <strong>tarea</strong> define una <strong>acción específica</strong> que se aplica sobre los nodos gestionados.</p>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Crear un archivo vacío</span>
+<span class="w">  </span><span class="nt">ansible.builtin.file</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/tmp/test.txt</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">touch</span>
+</code></pre></div>
+<hr />
+<h4 id="roles">🧩 Roles</h4>
+<p>Un <strong>role</strong> es una forma estructurada y reutilizable de empaquetar contenido de Ansible:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Directorio</th>
+<th style="text-align: left;">Propósito Principal</th>
+<th style="text-align: left;">Explicación Breve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>tasks/</code></strong></td>
+<td style="text-align: left;"><strong>Flujo de Ejecución</strong></td>
+<td style="text-align: left;">Contiene los archivos YAML (<code>main.yml</code>) que definen las <strong>acciones</strong> (tareas) que Ansible debe realizar en los <em>hosts</em> (p. ej., instalar paquetes, crear usuarios, copiar archivos).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>handlers/</code></strong></td>
+<td style="text-align: left;"><strong>Manejo de Eventos</strong></td>
+<td style="text-align: left;">Contiene los <em>handlers</em> (manejadores) que son <strong>tareas que solo se ejecutan cuando son notificadas</strong> (o <em>notified</em>) por una tarea en <code>tasks/</code>. Se usan generalmente para reiniciar servicios, lo cual solo debe hacerse si la configuración ha cambiado.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>vars/</code></strong></td>
+<td style="text-align: left;"><strong>Variables por Defecto</strong></td>
+<td style="text-align: left;">Almacena variables específicas para este <em>role</em> (en <code>main.yml</code>). Son variables que el <em>role</em> necesita, pero que <strong>pueden ser sobrescritas</strong> desde el <em>playbook</em> o el inventario.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>defaults/</code></strong></td>
+<td style="text-align: left;"><strong>Valores Preestablecidos</strong></td>
+<td style="text-align: left;">(Aunque no lo mencionaste, es crucial). Contiene variables (en <code>main.yml</code>) que establecen los <strong>valores predeterminados</strong> para el <em>role</em>. Tienen la <em>menor</em> prioridad, asegurando que el <em>role</em> siempre funcione con valores seguros si no se especifican otros.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>templates/</code></strong></td>
+<td style="text-align: left;"><strong>Archivos Dinámicos (Jinja2)</strong></td>
+<td style="text-align: left;">Contiene plantillas de archivos (usualmente con extensión <code>.j2</code>) que se copian al <em>host</em> gestionado. Antes de copiarse, Ansible <strong>reemplaza las variables</strong> definidas en Jinja2 (<code>{{ variable }}</code>) con sus valores reales.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>files/</code></strong></td>
+<td style="text-align: left;"><strong>Archivos Estáticos</strong></td>
+<td style="text-align: left;">Contiene archivos estáticos que deben copiarse <strong>tal cual</strong> a los <em>hosts</em> gestionados. Se accede a ellos usando el módulo <code>copy</code> o <code>template</code>, pero no se procesan como plantillas.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>meta/</code></strong></td>
+<td style="text-align: left;"><strong>Metadatos y Dependencias</strong></td>
+<td style="text-align: left;">Contiene información sobre el <em>role</em> mismo, como su autor, licencia, plataformas compatibles, y, lo más importante, <strong>las dependencias de otros <em>roles</em></strong> que deben ejecutarse antes que este.</td>
+</tr>
+</tbody>
+</table>
+<p>La diferencia principal entre <code>vars/</code> y <code>defaults/</code> es la <strong>prioridad</strong> de las variables (lo veremos más adelante).</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Los roles permiten <strong>modularizar</strong> tus automatizaciones y <strong>reutilizar</strong> código entre proyectos.</p>
+<p>Para usarlos, basta con incluirlos dentro de un play:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">roles</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">common</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webserver</span>
+</code></pre></div>
+</div>
+<hr />
+<h4 id="handlers">🛎️ Handlers</h4>
+<p>Son tareas especiales que <strong>solo se ejecutan cuando son notificadas</strong> por otras tareas que cambian algo.</p>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Copiar archivo de configuración</span>
+<span class="w">    </span><span class="nt">ansible.builtin.copy</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx.conf</span>
+<span class="w">      </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/nginx/nginx.conf</span>
+<span class="w">    </span><span class="nt">notify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Reiniciar Nginx</span><span class="w"> </span><span class="c1"># llamada la handler con &quot;name: Reiniciar Nginx&quot;</span>
+
+<span class="nt">handlers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Reiniciar Nginx</span><span class="w"> </span><span class="c1"># el nombre tiene que coincidir con el campo &quot;notify&quot;</span>
+<span class="w">    </span><span class="nt">ansible.builtin.service</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">      </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restarted</span>
+</code></pre></div>
+<hr />
+<h4 id="plays">▶️ Plays</h4>
+<p>Un <strong>play</strong> encapsula una lista ordenada de <strong>acciones</strong> contra un conjunto de <strong>hosts</strong>.</p>
+<p>Cada play puede incluir <strong>variables</strong>, <strong>roles</strong>, <strong>handlers</strong> y <strong>tareas</strong>.</p>
+<p>Podemos pensar en un play como:</p>
+<blockquote>
+<p>“Ejecutar estas tareas sobre estos servidores, de esta forma.”</p>
+</blockquote>
+<hr />
+<h4 id="playbooks">🎮 Playbooks</h4>
+<p>Los <strong>playbooks</strong> son archivos escritos en <strong>YAML</strong> que definen qué tareas ejecutar y sobre qué hosts.</p>
+<ul>
+<li>Son el <strong>la pieza principal de Ansible</strong></li>
+<li>Cada playbook contiene uno o varios <em>plays</em></li>
+</ul>
+<p>Ejemplo de un playbook básico:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Instalar Apache en los servidores web</span><span class="w"> </span><span class="c1"># Nombre del play</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservers</span><span class="w"> </span><span class="c1"># grupo de servidores</span>
+<span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"> </span><span class="c1"># se lanza como &#39;root&#39;</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Instalar paquete Apache</span>
+<span class="w">      </span><span class="nt">ansible.builtin.package</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apache2</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+</code></pre></div>
+<hr />
+<h4 id="modulos-modules">⚙️ Módulos (<em>Modules</em>)</h4>
+<p>Los <strong>módulos</strong> son paquetes de código que Ansible copia temporalmente a los nodos gestionados para ejecutar acciones específicas.</p>
+<ul>
+<li>Existen módulos para administrar paquetes, usuarios, bases de datos, redes, etc.</li>
+<li>Se agrupan en <strong>colecciones</strong> (collections).</li>
+</ul>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Instalar paquete Nginx</span>
+<span class="w">  </span><span class="nt">ansible.builtin.package</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Los módulos son <strong>autocontenidos</strong> y <strong>declarativos</strong>: definen qué debe lograrse, no cómo.</p>
+</div>
+<hr />
+<h4 id="plugins">🔌 Plugins</h4>
+<p>Los <strong>plugins</strong> amplían las capacidades del núcleo de Ansible</p>
+<p>Tipos de plugins comunes:</p>
+<ul>
+<li><strong>Connection plugins:</strong> controlan cómo se conecta Ansible (SSH, WinRM, local, Docker…)</li>
+<li><strong>Filter plugins:</strong> manipulan datos y variables</li>
+<li><strong>Callback plugins:</strong> controlan la salida y formato del resultado</li>
+</ul>
+<hr />
+<h4 id="colecciones-collections">📦 Colecciones (<em>Collections</em>)</h4>
+<p>Las <strong>colecciones</strong> agrupan el contenido de Ansible: <strong>roles</strong>, <strong>módulos</strong>, <strong>plugins</strong> y <strong>playbooks</strong></p>
+<p>Se instalan fácilmente desde <strong>Ansible Galaxy</strong>:</p>
+<div class="highlight"><pre><span></span><code>ansible-galaxy<span class="w"> </span>collection<span class="w"> </span>install<span class="w"> </span>ansible.posix
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Usa colecciones oficiales (por ejemplo <code>ansible.builtin</code>, <code>community.general</code>) para mantener compatibilidad y seguridad.</p>
+</div>
+<h3 id="archivos-fundamentales">Archivos Fundamentales</h3>
+<ol>
+<li>
+<p>El ya comentado <strong>Inventario (<code>inventory</code>)</strong>
+    Lista de hosts o grupos de hosts que Ansible gestionará:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[webservers]</span>
+<span class="na">web1 ansible_host</span><span class="o">=</span><span class="s">192.168.1.10</span>
+<span class="na">web2 ansible_host</span><span class="o">=</span><span class="s">192.168.1.11</span>
+
+<span class="k">[dbservers]</span>
+<span class="na">db1 ansible_host</span><span class="o">=</span><span class="s">192.168.1.20</span>
+</code></pre></div>
+</li>
+<li>
+<p>Y el <strong>archivo de configuración (<code>ansible.cfg</code>)</strong>
+    Controla el comportamiento global de Ansible.</p>
+<div class="highlight"><pre><span></span><code><span class="k">[defaults]</span>
+<span class="na">inventory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">./inventory</span>
+<span class="na">host_key_checking</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+</code></pre></div>
+</li>
+</ol>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>En entornos productivos <code>host_key_checking</code> debe estar siempre a <code>True</code> para evitar <strong>server spoofing</strong> y ataques <strong>man-in-the-middle</strong></p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Puedes establecer una configuración global en <code>/etc/ansible/ansible.cfg</code>
+o local por proyecto (recomendado) en el directorio de trabajo.</p>
+</div>
+<hr />
+<h2 id="ejemplo-practico">✍️ Ejemplo Práctico</h2>
+<h3 id="0-requisitos">0. Requisitos</h3>
+<ul>
+<li>Python &gt;= 3.10</li>
+</ul>
+<h3 id="1-instalar-ansible">1. Instalar Ansible</h3>
+<p>Crear un <strong>virtual enviroment</strong> de trabajo:
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+</code></pre></div></p>
+<p>Instalar <strong>ansible-core</strong>:
+<div class="highlight"><pre><span></span><code>pip install ansible-core==2.16.14
+</code></pre></div></p>
+<p>Verifica la versión instalada:
+<div class="highlight"><pre><span></span><code>ansible<span class="w"> </span>--version
+</code></pre></div></p>
+<h3 id="2-crear-un-inventario-simple">2. Crear un Inventario Simple</h3>
+<p>Con tu editor de confianza, crea el archivo <code>inventory</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[all]</span>
+<span class="n">localhost</span><span class="w"> </span><span class="n">ansible_connection</span><span class="o">=</span><span class="err">local</span>
+</code></pre></div>
+<p>y <code>ansible.cfg</code>:
+<div class="highlight"><pre><span></span><code><span class="k">[defaults]</span>
+<span class="n">inventory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">./inventory</span>
+<span class="n">host_key_checking</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">False # no</span>
+</code></pre></div></p>
+<h3 id="3-validar-configuracion-local">3. Validar configuración local</h3>
+<p>Lanzamos el siguiente comando:</p>
+<div class="highlight"><pre><span></span><code>ansible<span class="w"> </span>-m<span class="w"> </span>ping<span class="w"> </span>localhost
+</code></pre></div>
+<p>Salida esperada:</p>
+<div class="highlight"><pre><span></span><code>localhost<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">SUCCESS</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;changed&quot;</span>:<span class="w"> </span>false,
+<span class="w">    </span><span class="s2">&quot;ping&quot;</span>:<span class="w"> </span><span class="s2">&quot;pong&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>El módulo <code>ping</code> <strong>no hace un ping de red real</strong>, sino una verificación de conectividad y autenticación con el host sobre SSH</p>
+</div>
+<hr />
+<h2 id="errores-comunes-y-buenas-practicas">🚨 Errores Comunes y Buenas Prácticas</h2>
+<h3 id="errores-comunes">Errores Comunes</h3>
+<ol>
+<li>
+<p><strong>Error de autenticación SSH</strong></p>
+<p><div class="highlight"><pre><span></span><code>UNREACHABLE!<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>host<span class="w"> </span>via<span class="w"> </span>ssh
+</code></pre></div>
+→ Revisa las claves SSH y permisos</p>
+</li>
+<li>
+<p><strong>Inventario mal formateado</strong>
+    → Asegúrate de que no haya espacios o tabulaciones incorrectas en el archivo <code>inventory</code></p>
+</li>
+<li>
+<p><strong>Ruta incorrecta del <code>ansible.cfg</code></strong>
+  → Usa <code>ansible --version</code> para verificar desde dónde se está leyendo la configuración</p>
+</li>
+</ol>
+<h3 id="buenas-practicas">Buenas Prácticas</h3>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul>
+<li>Usa inventarios <strong>por entorno</strong> (dev, stage, prod) o <strong>tecnología</strong> (oracle, mongo)</li>
+<li>Define un <code>ansible.cfg</code> por proyecto para mantener configuraciones aisladas</li>
+</ul>
+</div>
+<hr />
+<h2 id="ejercicio-propuesto">📚 Ejercicio Propuesto</h2>
+<p>Crea un entorno básico y verifica conectividad entre tu nodo de control y un servidor remoto.</p>
+<ol>
+<li>Instala Ansible.</li>
+<li>Configura un archivo <code>inventory</code> con <strong>localhost</strong> como host remoto</li>
+<li>Crea un playbook <code>check.yml</code> que:<ul>
+<li>Use el módulo <code>ping</code></li>
+</ul>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Si todo está bien configurado, deberías ver un mensaje de éxito similar a:
+<div class="highlight"><pre><span></span><code>localhost<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">SUCCESS</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;changed&quot;</span>:<span class="w"> </span>false,
+<span class="w">    </span><span class="s2">&quot;ping&quot;</span>:<span class="w"> </span><span class="s2">&quot;pong&quot;</span>
+<span class="o">}</span>
+</code></pre></div></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.expand", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
