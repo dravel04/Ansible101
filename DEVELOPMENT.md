@@ -7,6 +7,11 @@ cd cliapp/
 pip install -e .
 ```
 
+Durante `lab init` se despliega localmente una **clave privada** `id_lab` la cual permite que Ansible se conecte sin password a los contenedores de desarrollo. Durante el build de la imagen se inyecta en la **clave pública** asociada a esta clave privada para permitir el acceso.
+
+- [lab_initializer.py](cliapp/lab/application/use_cases/lab_initializer.py)
+- [podman-ssh-ol8.Containerfile](cliapp/lab/infrastructure/containerfiles/podman-ssh-ol8.Containerfile)
+
 ## Compilación
 
 Dependencias para Linux:
