@@ -1,8 +1,18 @@
+# This file is part of LAB CLI.
+# Copyright (C) 2025 Rafael Marín Sánchez (dravel04 - rafa marsan)
+# Licensed under the GNU GPLv3. See LICENSE file for details.
+
 # lab/application/use_cases/exercise/__init__.py
-from .exercise_a import ExerciseA
-from .exercise_c import ExerciseC
+from .exercise_vars import ExerciseVars
+from .exercise_role import ExerciseRole
+from .exercise_webservers import ExerciseWebServers
+from .exercise_databases import ExerciseDatabases
+from .exercise_final import ExerciseFinal
 
 EXERCISES = {
-    "a": ExerciseA,
-    "c": ExerciseC
+    "vars": ExerciseVars,
+    "role": ExerciseRole,
+    "webservers": ExerciseWebServers,
+    "databases": ExerciseDatabases,
+    "final": ExerciseFinal,
 }

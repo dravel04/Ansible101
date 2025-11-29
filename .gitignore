@@ -3,6 +3,8 @@
 *.pyo
 *.pyd
 test.py
+.lab_config.json
+nuitka-crash-report*
 
 # Archivos de __pycache__
 __pycache__/
@@ -40,7 +42,8 @@ main.dist
 main.onefile-build
 
 # generated types
-.astro/
+webapp/hosts
+webapp/ansible.cfg
 
 # dependencies
 node_modules/

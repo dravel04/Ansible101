@@ -1,3 +1,7 @@
+# This file is part of LAB CLI.
+# Copyright (C) 2025 Rafael Marín Sánchez (dravel04 - rafa marsan)
+# Licensed under the GNU GPLv3. See LICENSE file for details.
+
 # docker build -t ssh-ol:8.10 -f docker_ol8
 FROM oraclelinux:8.10 AS base
 
@@ -14,10 +18,11 @@ RUN groupadd -g 5000 ansible && \
   chown -R ansible:ansible /home/ansible/.ssh && \
   chmod 700 /home/ansible/.ssh
 
-COPY id_ansible.pub /home/ansible/.ssh/authorized_keys
-
-RUN chown -R ansible:ansible /home/ansible/.ssh/authorized_keys && \
-  chmod 600 /home/ansible/.ssh/authorized_keys
+# COPY id_ansible.pub /home/ansible/.ssh/authorized_keys
+RUN echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICU2l2lDVI5HquRM/mXLcVY76RF/S8PeQJRYIlcPvEhN user@ansible-lab" \
+    > /home/ansible/.ssh/authorized_keys && \
+    chown ansible:ansible /home/ansible/.ssh/authorized_keys && \
+    chmod 600 /home/ansible/.ssh/authorized_keys
 
 EXPOSE 22
 

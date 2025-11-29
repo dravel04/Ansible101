@@ -1,8 +1,12 @@
 site_name: Ansible101
+repo_url: https://github.com/dravel04/Ansible101
 theme:
   features:
     - navigation.expand
+    - content.code.copy
   name: material
+  # logo: images/logo.png
+  # favicon: images/favicon_old.png
   font:
     text: Roboto
     code: Roboto Mono
@@ -17,8 +21,22 @@ theme:
       toggle:
         icon: material/brightness-7 
         name: Switch to dark mode
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - attr_list
+
 nav:
   - Home: index.md
-  - Guías:
-      - Introducción: introduccion.md
-      - Instalación: instalacion.md
+  - Contenido:
+      - Introduccion: introduction.md
+      - Fundamentos: basics.md
+      - Variables: vars.md
+      - Tasks, Roles y Handlers: task_roles_handlers.md
+      - Templates: templates.md
+      - Configurar WebServers: config_webservers.md
+      - Configurar Databases: config_databases.md
+      - Proyecto final: final_project.md
+      # - Admonitions: admonitions_list.md

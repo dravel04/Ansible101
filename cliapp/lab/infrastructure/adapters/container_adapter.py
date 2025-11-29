@@ -1,28 +1,27 @@
+# This file is part of LAB CLI.
+# Copyright (C) 2025 Rafael Marín Sánchez (dravel04 - rafa marsan)
+# Licensed under the GNU GPLv3. See LICENSE file for details.
+
 # lab/infrastructure/adapters/container_adapter.py
-from typing import Tuple, Optional, Any
+from typing import Dict, Tuple, Optional, Any
 import logging
-import sys
 
 logger = logging.getLogger("lab")
 
 class ContainerAdapter:
-    def __init__(self, engine="docker"):
+    def __init__(self, engine="podman"):
         self.engine = engine
-        self._init_client()
-        if engine == "docker":
-            import docker
-            self.client = docker.from_env()
-        # elif engine == "podman":
-        #     import podman
-        #     self.client = podman.from_env()
+        self.client = None
 
-    def _init_client(self) -> None:
+    def init_client(self) -> Tuple[bool, str]:
         import shutil
         import subprocess
-        import sys
+        failed = False
+        error_output = ''
         if not shutil.which(self.engine):
-            print(f"El cliente '{self.engine}' no se cuentra instalado")
-            sys.exit(1)
+            failed = True
+            error_output = f"El cliente '{self.engine}' no se cuentra instalado"
+            return failed, error_output
         try:
             result = subprocess.run(
                 [self.engine, "info"],
@@ -31,11 +30,52 @@ class ContainerAdapter:
                 timeout=5
             )
             if result.returncode != 0:
-                print(f"No se puede contantar con la API del cliente '{self.engine}'. Revise que este inicializado con el comando `{self.engine} ps`")
-                sys.exit(1)
+                failed = True
+                error_output = f"No se puede contactar con la API del cliente '{self.engine}'. Revise que este inicializado con el comando `{self.engine} ps`"
+                return failed, error_output
         except Exception as e:
-            print(f"No se puede contantar con la API del cliente '{self.engine}'. Revise que este inicializado con el comando `{self.engine} ps`")
-            sys.exit(1)
+            failed = True
+            error_output = f"No se puede contactar con la API del cliente '{self.engine}'. Revise que este inicializado con el comando `{self.engine} ps`"
+            return failed, error_output
+
+        if self.engine == "podman":
+            import podman
+            self.client = podman.from_env()
+        # elif self.engine == "docker":
+        #     import docker
+        #     self.client = docker.from_env()
+        return failed, error_output
+
+    def build_image(
+        self,
+        image: Tuple[str, Dict[str, str]]
+    ) -> Tuple[bool, str]:
+        name, info = image
+        failed = False
+        error_output = ''
+
+        try:
+            import tempfile
+            from pathlib import Path
+            assert self.client is not None
+            # Creamos un directorio limpio en /tmp
+            with tempfile.TemporaryDirectory() as ctx_dir:
+                ctx = Path(ctx_dir)
+                # Creamos el Containerfile dentro del contexto limpio
+                dockerfile_path = ctx / "Containerfile"
+                dockerfile_path.write_text(info["content"])
+                # Construir la imagen usando el Containerfile temporal
+                self.client.images.build(
+                    path=str(ctx),
+                    dockerfile="Containerfile",
+                    tag=info["tag"],
+                    rm=True
+                )
+        except Exception as e:
+            failed = True
+            error_output = f"{type(e).__name__}: {e}"
+
+        return failed, error_output
 
     def run_container(
         self,
@@ -47,12 +87,19 @@ class ContainerAdapter:
         error_output = ''
         container = None
         try:
+            assert self.client is not None
+            try:
+                old = self.client.containers.get(name)
+                old.remove(force=True)
+            except Exception as e:
+                pass
+
             container = self.client.containers.run(
                 image=image,
                 detach=True,
                 name=name,
                 hostname=name,
-                ports=ports,
+                ports=ports
             )
             return container, failed, error_output
         except Exception as e:
@@ -67,6 +114,7 @@ class ContainerAdapter:
         failed = False
         error_output = ''
         try:
+            assert self.client is not None
             container = self.client.containers.get(name)
             container.remove(force=True)
             return failed, error_output

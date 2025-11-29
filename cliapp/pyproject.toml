@@ -1,10 +1,10 @@
 [project]
 # Información general del proyecto
 name = "lab"  # Nombre del proyecto. Usado para empaquetado e instalación.
-version = "0.6.3"  # Versión actual del proyecto.
+version = "0.6.9"  # Versión actual del proyecto.
 description = "CLI para la gestión de ejercicios de laboratorio de un curso Ansible."  # Descripción corta.
 authors = [
-  { name = "Rafael Marín", email = "tu.email@example.com" }
+  { name = "Rafael Marín", email = "trainedbronze@gmail.com" }
 ]
 # Versión mínima de Python requerida.
 requires-python = ">=3.10"
@@ -14,8 +14,12 @@ dependencies = [
   "typer==0.17.4",
   "typing_extensions==4.15.0",
   "rich==14.1.0",
-  "docker==7.1.0",
+  "podman==5.6.0",
+  "paramiko==4.0.0",
 ]
+# "docker==7.1.0",
+
+license = { text = "GPL-3.0-or-later" }
 
 [project.scripts]
 # Define los scripts de consola que se instalan con el paquete.
@@ -32,6 +36,9 @@ requires = [               # Herramientas necesarias para construirlo
 ]
 # build-backend indica qué herramienta se usa para construir
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+license-files = ["LICENSE"]
 
 # Opcional: secciones de datos adicionales para setuptools
 [tool.setuptools.package-data]

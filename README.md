@@ -1,54 +1,70 @@
 # Ansible101
-Para mayor facilidad exportaremos nuestro paquete mediante `pip`.
 
-## Compilar el programa
+**Proyecto para iniciar a profesionales en el apasionante mundo de Ansible de forma práctica y dinámica.**
+
+Este repositorio contiene:
+
+- Material didáctico estructurado por módulos
+- Laboratorio práctico ejecutable localmente
+- Roles de ejemplo para aprender buenas prácticas en Ansible.
+- Ejercicios que cubren desde variables hasta servidores web y bases de datos.
+
+El curso comienza totalmente desde cero y utiliza un laboratorio local para practicar
+
+
+## 🌐 Accede a la documentación completa
+
+Toda la explicación detallada, ejemplos y guías paso a paso están disponibles en la **página del curso**:
+
+👉 [Ver documentación completa](https://dravel04.github.io/Ansible101/)
+
+> Sigue el enlace para empezar a aprender con el laboratorio interactivo.
+
+
+## 🚀 Contenido
+
+1. **Tema 1:** Introducción a Ansible
+2. **Tema 2:** Fundamentos de Ansible  
+3. **Tema 3:** Prioridad de variables en Ansible
+4. **Tema 4:** Manejo de Tareas, Roles y Handlers  
+5. **Tema 5:** Templates y Jinja2 en Ansible  
+6. **Tema 6:** Configuración de Servidores Web con Apache / Nginx
+7. **Tema 7:** Gestión de Bases de Datos con PostgreSQL
+8. **Tema 8:** Proyecto final: Automatización Completa de una Aplicación Web
+
+## 💻 Laboratorio Local
+
+El proyecto incluye un CLI levantar un laboratorio de pruebas:
 ```shell
-python -m nuitka \
-  --standalone \
-  --onefile \
-  --static-libpython=no \
-  --include-data-dir=lab/infrastructure/containerfiles=lab/infrastructure/containerfiles \
-  lab/main.py \
-  --output-filename=lab-cli
+# Iniciar laboratorio
+lab init
+
+# Ejecutar ejercicios
+lab start <nombre_ejercicio>
+
+# Evaluar tu progreso
+lab grade <nombre_ejercicio>
 ```
 
+## 📦 Instalación / Uso
 
-<details>
-<summary><h2>Laboratorio - CLI</h2></summary>
+Para usuarios que solo quieran probar el proyecto:
 
-### Estructura de carpeta
-```
-.
-├── lab
-│   ├── __init__.py
-│   ├── grade
-│   │   ├── __init__.py
-│   │   ├── grade_functions.py
-│   │   ├── grade.py
-│   │   └── scripts
-│   │       ├── __init__.py
-│   │       ├── grade_error.py
-│   │       ├── grade_ok.py
-│   │       └── grade_rich.py
-│   └── main.py
-└── pyproject.toml
+- Descargar la última versión del binario
+- Agregar al PATH el directorio donde hemos movido el binario lab
+
+```shell
+export PATH=$(pwd):$PATH
+lab --help
 ```
 
+> Para desarrolladores que quieran modificar o compilar desde el código fuente, revisar [DEVELOPMENT.md](DEVELOPMENT.md).
 
-## Apuntes
+## 📚 Recursos
 
-### Live
+- [Documentación oficial de Ansible](https://docs.ansible.com/)
+- [Guía de buenas prácticas de roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
 
-Lo usas como un gestor de contexto (`with` Live(...) as live:):
-- Cuando entras al bloque `with`: Rich "captura" la línea actual de la terminal. Cualquier cosa que live.console.print() (o console.print() si no estás usando live.console explícitamente dentro del Live para ese contenido específico) imprima dentro de ese bloque, se mostrará en el área "en vivo" y se actualizará.
-- Dentro del bloque `with`: Puedes cambiar el contenido que se muestra en el área de Live simplemente volviendo a llamar a live.update() (aunque a menudo no es necesario, ya que console.print dentro del contexto de Live ya actualiza el contenido).
-- Cuando sales del bloque `with`:
-  + Si `transient=True` (como lo tenemos), el contenido de Live desaparece, dejando la terminal limpia como estaba antes de que Live se activara. Esto es ideal para barras de progreso o spinners que solo quieres ver mientras la tarea se ejecuta.
-  + Si `transient=False` (por defecto), el contenido final de Live permanece en la terminal.
+## 📝 [LICENSE](./LICENSE)
 
-
-
-### Enlaces de interés
-- [Libreria click](https://click.palletsprojects.com/en/8.1.x/)
-- [click-completion](https://github.com/click-contrib/click-completion?tab=readme-ov-file)
-- [Packaging Projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+GNU GENERAL PUBLIC LICENSE Version 3

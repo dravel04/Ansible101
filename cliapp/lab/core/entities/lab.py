@@ -1,12 +1,17 @@
+# This file is part of LAB CLI.
+# Copyright (C) 2025 Rafael Marín Sánchez (dravel04 - rafa marsan)
+# Licensed under the GNU GPLv3. See LICENSE file for details.
+
 # lab/core/entities/lab.py
 
 class Lab:
     """
     Representa el estado del Laboratorio
     """
-    VALID_ENGINES = ["docker", "podman"]
+    # VALID_ENGINES = ["docker", "podman"]
+    VALID_ENGINES = ["podman"]
 
-    def __init__(self, engine: str = "docker"):
+    def __init__(self, engine: str = "podman"):
         self.engine = engine
 
     @property

@@ -1,3 +1,7 @@
+# This file is part of LAB CLI.
+# Copyright (C) 2025 Rafael Marín Sánchez (dravel04 - rafa marsan)
+# Licensed under the GNU GPLv3. See LICENSE file for details.
+
 # lab/infrastructure/adapters/registry_adapter.py
 from lab.application.use_cases.exercise import EXERCISES
 from lab.application.use_cases.grader import GRADERS
@@ -23,12 +27,12 @@ class RegistryAdapter:
         LAB_IMAGES = {}
         package = "lab.infrastructure.containerfiles"
 
-        for containerfile_name in resources.contents(package):
-            if containerfile_name.endswith(".Containerfile"):
-                # Leemos el contenido del containerfile dentro del paquete
-                with resources.open_text(package, containerfile_name) as f:
-                    content = f.read()
-                name = containerfile_name.replace(".Containerfile", "")
+        for containerfile in resources.files(package).iterdir():
+            if containerfile.name.endswith(".Containerfile"):
+                # Leer contenido del archivo usando el propio objeto
+                content = containerfile.read_text()
+                name = containerfile.name.replace(".Containerfile", "")
+                name = name.replace("docker-","lab-").replace("podman-","lab-")
                 tag = f"{name}:latest"
                 LAB_IMAGES[name] = {
                     "content": content,
