@@ -11,7 +11,22 @@ Al finalizar este módulo, serás capaz de:
 
 ---
 
+## 🛞 Comandos del ejercicio
+
+Para iniciar el ejercicio, ejecuta:
+```shell
+lab start webservers
+```
+
+Para evaluar el ejercicio, ejecuta:
+```shell
+lab grade webservers
+```
+
+---
+
 ## 📘 **Instalación y configuración de Apache usando roles**
+
 
 ### 🏗️ Estructura del rol
 
@@ -55,23 +70,27 @@ Listen {{ apache_port }}
 **tasks/install.yml**
 ```yaml
 - name: Instalar Apache
+  become: true
   ansible.builtin.package:
     name: httpd
     state: present
 
 - name: Asegurar que Apache esta habilitado y activo
+  become: true
   ansible.builtin.service:
     name: httpd
     enabled: yes
     state: started
 
 - name: Desactivar el listener por defecto en Apache
+  become: true
   ansible.builtin.replace:
     path: /etc/httpd/conf/httpd.conf
     regexp: '^Listen 80'
     replace: '# Listen 80'
 
 - name: Copiar configuracion de Apache
+  become: true
   ansible.builtin.template:
     src: httpd.conf.j2
     dest: /etc/httpd/conf.d/main.conf
@@ -79,12 +98,13 @@ Listen {{ apache_port }}
 
 # Ejecuta todos los handlers pendientes, en vez de
 # esperar hasta que se terminen las tasks en el host
-- meta: flush_handlers
+- ansible.builtin.meta: flush_handlers
 ```
 
 **handlers/main.yml**
 ```yaml
 - name: Reiniciar Apache
+  become: true
   ansible.builtin.service:
     name: httpd
     state: restarted
@@ -234,22 +254,26 @@ http {
 ```yaml
 ---
 - name: Instalar Nginx
+  become: true
   ansible.builtin.package:
     name: nginx
     state: present
 
 - name: Copiar config principal
+  become: true
   ansible.builtin.template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
 
 - name: Copiar config reverse proxy
+  become: true
   ansible.builtin.template:
     src: reverse-proxy.conf.j2
     dest: /etc/nginx/conf.d/reverse-proxy.conf
   notify: "Recargar Nginx"
 
 - name: Asegurar Nginx activo
+  become: true
   ansible.builtin.service:
     name: nginx
     enabled: yes
@@ -260,6 +284,7 @@ http {
 
 ```yaml
 - name: Recargar Nginx
+  become: true
   ansible.builtin.service:
     name: nginx
     state: reloaded
@@ -276,7 +301,6 @@ Encargado de orquestar la ejecución de los roles
 ---
 - hosts: webservers
   gather_facts: false
-  become: yes
   roles:
     - role: apache
     - role: nginx

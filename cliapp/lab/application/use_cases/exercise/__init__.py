@@ -3,10 +3,12 @@ from .exercise_vars import ExerciseVars
 from .exercise_role import ExerciseRole
 from .exercise_webservers import ExerciseWebServers
 from .exercise_databases import ExerciseDatabases
+from .exercise_final import ExerciseFinal
 
 EXERCISES = {
     "vars": ExerciseVars,
     "role": ExerciseRole,
     "webservers": ExerciseWebServers,
     "databases": ExerciseDatabases,
+    "final": ExerciseFinal,
 }

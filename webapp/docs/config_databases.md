@@ -10,6 +10,20 @@ Al finalizar este módulo, serás capaz de:
 
 ---
 
+## 🛞 Comandos del ejercicio
+
+Para iniciar el ejercicio, ejecuta:
+```shell
+lab start databases
+```
+
+Para evaluar el ejercicio, ejecuta:
+```shell
+lab grade databases
+```
+
+---
+
 ## 📘 Instalación y Configuración de PostgreSQL usando roles
 
 ### 🏗️ Estructura del rol
@@ -114,6 +128,8 @@ host    all             all             0.0.0.0/0               md5
   notify: Reiniciar PostgreSQL
 
 - name: Activamos el listener
+  become: true
+  become_user: postgres
   ansible.builtin.replace:
     path: /var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf
     regexp: "^#listen_addresses = 'localhost'"
@@ -121,13 +137,24 @@ host    all             all             0.0.0.0/0               md5
   notify: Reiniciar PostgreSQL
 
 - name: Activamos el puerto
+  become: true
+  become_user: postgres
   ansible.builtin.replace:
     path: /var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf
     regexp: '^\s*#?\s*port\s*=.*$'
     replace: 'port = {{ postgresql_port }}'
   notify: Reiniciar PostgreSQL
 
-- meta: flush_handlers
+- ansible.builtin.meta: flush_handlers
+
+- name: Esperar a que {{ postgresql_port }} este activo
+  become: true
+  ansible.builtin.wait_for:
+    host: localhost
+    port: "{{ postgresql_port }}"
+    delay: 5
+    timeout: 60
+    state: started
 
 - name: Testar conexion a la instancia
   become: true
@@ -156,6 +183,7 @@ host    all             all             0.0.0.0/0               md5
 **handlers/main.yml**
 ```yaml
 - name: Reiniciar PostgreSQL
+  become: true
   ansible.builtin.service:
     name: "postgresql-{{ postgresql_version }}"
     state: restarted
@@ -169,7 +197,6 @@ host    all             all             0.0.0.0/0               md5
 ```yaml
 ---
 - hosts: dbservers
-  become: true
   gather_facts: true
   roles:
     - role: postgresql

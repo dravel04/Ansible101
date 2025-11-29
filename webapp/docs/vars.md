@@ -296,4 +296,4 @@ lab grade vars
   - Agrega una tarea que muestre con `debug:` el contenido del archivo creado (se puede hacer en varios pasos)
 
 !!! abstract
-  - [Módulo slurp](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/slurp_module.html)
+    - [Módulo slurp](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/slurp_module.html)

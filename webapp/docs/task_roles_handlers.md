@@ -282,9 +282,9 @@ Características:
 - Pueden estar dentro de un **rol** en su carpeta `handlers/`
 
 !!! tip
-    Se puede forzar que los handlers se ejecuten en un determinado momento usando
+    Se puede forzar que los handlers se ejecuten en un determinado momento usando sin esperar al final
     ```yaml
-    - meta: flush_handlers
+    - ansible.builtin.meta: flush_handlers
     ```
 
 ---
