@@ -5,6 +5,7 @@ import logging
 import sys
 
 from lab.infrastructure.ui.progress_notifier_adapter import ProgressNotifierAdapter
+from lab.infrastructure.adapters.registry_adapter import RegistryAdapter
 
 IS_PACKAGED = getattr(sys, "frozen", False) or "__compiled__" in globals()
 
@@ -22,6 +23,17 @@ app = typer.Typer(
     help="Un app para tus herramientas de laboratorio.",
     context_settings={"help_option_names": ["-h", "--help"]}
 ) 
+
+# Funciones de autocompletado dinamico
+def exercises_autocomplete(ctx: typer.Context, args: list, incomplete: str):
+    registry = RegistryAdapter()
+    exercises_map = registry.auto_discover_exercises()
+    return [name for name in exercises_map.keys() if name.startswith(incomplete)]
+
+def graders_autocomplete(ctx: typer.Context, args: list, incomplete: str):
+    registry = RegistryAdapter()
+    graders_map = registry.auto_discover_graders()
+    return [name for name in graders_map.keys() if name.startswith(incomplete)]
 
 @app.command()
 def init(
@@ -53,13 +65,15 @@ def init(
 def start(
     # Un argumento posicional se define simplemente con el tipo
     # y typer.Argument() si quieres añadir metadatos (como la ayuda)
-    exercisename: Annotated[str, typer.Argument(help="Nombre del ejercicio a iniciar")],
+    exercisename: Annotated[str, typer.Argument(
+        help="Nombre del ejercicio a iniciar",
+        autocompletion=exercises_autocomplete
+        )],
     debug: bool = typer.Option(False, "--debug", "-d")
 ):
     """
     Inicia las dependencias del ejercicio correspondiente
     """
-    from lab.infrastructure.adapters.registry_adapter import RegistryAdapter
     if debug:
         logger.setLevel(logging.DEBUG)
 
@@ -81,13 +95,15 @@ def start(
 
 @app.command()
 def grade(
-    exercisename: Annotated[str, typer.Argument(help="Nombre del ejercicio a evaluar")],
+    exercisename: Annotated[str, typer.Argument(
+        help="Nombre del ejercicio a evaluar",
+        autocompletion=graders_autocomplete
+        )],
     debug: bool = typer.Option(False, "--debug", "-d")
 ):
     """
     Evalua el ejercicio correspondiente
     """
-    from lab.infrastructure.adapters.registry_adapter import RegistryAdapter
     from lab.infrastructure.ui.progress_notifier_adapter import ProgressNotifierAdapter
     if debug:
         logger.setLevel(logging.DEBUG)
@@ -116,7 +132,6 @@ def finish(
     """
     Libera las dependencias del ejercicio correspondiente
     """
-    from lab.infrastructure.adapters.registry_adapter import RegistryAdapter
     if debug:
         logger.setLevel(logging.DEBUG)
 

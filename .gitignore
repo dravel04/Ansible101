@@ -4,6 +4,7 @@
 *.pyd
 test.py
 .lab_config.json
+nuitka-crash-report*
 
 # Archivos de __pycache__
 __pycache__/
