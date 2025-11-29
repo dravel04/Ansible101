@@ -2,5 +2,3 @@ setuptools==80.1.0
 wheel
 nuitka==2.7.14
 toml
-python3-dev 
-build-essential

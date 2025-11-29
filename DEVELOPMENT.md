@@ -1,8 +1,19 @@
-## Compilar el programa
+## Pruebas locales
+
+```shell
+python -m venv venv
+source venv/bin/activate
+cd cliapp/
+pip install -e .
+```
+
+## Compilación
 
 Dependencias para Linux:
 ```shell
 sudo apt install python3-dev build-essential patchelf ccache
+cd cliapp/
+pip install -r build_requirements.txt
 ```
 
 Fichero único:
