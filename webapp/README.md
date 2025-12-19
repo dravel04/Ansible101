@@ -1,3 +1,9 @@
+## Build del sitio web
+MkDocs tiene un comando integrado que hace todo el trabajo por ti (hace el build y lo sube a la rama `gh-pages`)
+```shell
+mkdocs gh-deploy
+```
+
 ## Listado de admonitions
 
 Deben estar activas:

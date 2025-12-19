@@ -50,8 +50,13 @@ Si aparece, la API está habilitada.
 
 ## Instalación
 
-1. Descargar la última versión del binario
-2. Agregar al `PATH` el directorio donde hemos movido el binario `lab`
+1. Descargar la última versión del binario [aquí](https://github.com/dravel04/Ansible101/releases)
+2. Crear directorio de trabajo y mover el binario dentro
+```shell
+mkdir -p <ruta_directorio>
+mv <ruta_binario> <ruta_directorio>
+```
+3. Agregar al `PATH` el directorio donde hemos movido el binario `lab`
 ```shell
 export PATH=$(pwd):$PATH
 ```
