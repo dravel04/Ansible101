@@ -154,6 +154,25 @@ def finish(
     notifier = ProgressNotifierAdapter()
     exercise.finish(notifier)
 
+def version_callback(value: bool):
+    if value:
+        from importlib.metadata import version
+        print('version :',version("lab"))
+        raise typer.Exit()
+
+@app.callback()
+def root(
+    version: bool = typer.Option(
+        None,
+        "--version","-version",
+        callback=version_callback,
+        is_eager=True,
+        help="Muestra la version",
+    )
+):
+    pass
+
+
 
 if __name__ == '__main__':
     app()
