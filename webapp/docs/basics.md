@@ -8,19 +8,83 @@
 
 Al finalizar este módulo, serás capaz de:
 
-1. Ejecutar **comandos ad-hoc** para realizar acciones rápidas
-2. Comprender la **estructura y sintaxis** de un playbook en YAML
-3. Crear y ejecutar **tareas simples y compuestas** dentro de un playbook
-4. Utilizar **módulos comunes** de Ansible
-5. Diferenciar entre la **ejecución puntual (ad-hoc)** y la **automatización persistente (playbooks)**
+1. Entender que son los **inventarios** y cómo se usan
+2. Ejecutar **comandos ad-hoc** para realizar acciones rápidas
+3. Comprender la **estructura y sintaxis** de un playbook en YAML
+4. Crear y ejecutar **tareas simples y compuestas** dentro de un playbook
+5. Utilizar **módulos comunes** de Ansible
+6. Diferenciar entre la **ejecución puntual (ad-hoc)** y la **automatización persistente (playbooks)**
 
 ---
 
 ## 🧠 Teoría
 
+### Inventarios
+
+En **Ansible**, un **inventario** es un fichero donde se define **qué máquinas vamos a gestionar** y cómo conectarnos a ellas. Permite organizar tus servidores en **grupos** y asignarles variables específicas.
+
+Los inventarios pueden estar en varios formatos:
+
+- **INI** (el más clásico)
+- **YAML**
+- **JSON**
+
+#### Ejemplo de inventario en formato INI
+
+```ini
+[webservers]
+web1 ansible_host=192.168.1.10
+web2 ansible_host=192.168.1.11
+
+[dbservers]
+db1 ansible_host=192.168.1.20
+
+[app:children]
+webservers
+dbservers
+```
+
+- `webservers` y `dbservers` son **grupos de hosts**.
+- `app` es un **grupo que agrupa otros grupos** (children).
+- `ansible_host` indica la IP o DNS al que conectarse.
+- Podemos definir variables de grupo o de host dentro del inventario, por ejemplo:
+
+```ini
+[webservers:vars]
+ansible_user=ubuntu
+apache_port=8080
+```
+
+#### Ejemplo de inventario en formato YAML
+
+```yaml
+all:
+  children:
+    webservers:
+      hosts:
+        web1:
+          ansible_host: 192.168.1.10
+        web2:
+          ansible_host: 192.168.1.11
+      vars:
+        ansible_user: ubuntu
+        apache_port: 8080
+    dbservers:
+      hosts:
+        db1:
+          ansible_host: 192.168.1.20
+    app:
+      children:
+        webservers: {}
+        dbservers: {}
+```
+!!! info "Resumen"
+    El inventario **define el inventario físico y lógico de tus hosts**, permite **agruparlao**, asignar **variables por host o por grupo**. Es **la base para ejecutar cualquier playbook o comando ad-hoc**.
+
+
 ### Comandos *Ad-hoc*
 
-Los **comandos ad-hoc** son una forma rápida de ejecutar tareas simples en uno o varios hosts **sin escribir un playbook**
+Los **comandos ad-hoc** son una forma rápida de ejecutar tareas simples en uno o varios máquinas **sin escribir un playbook**
 
 Sintaxis general:
 
@@ -89,9 +153,42 @@ Cada *playbook* se compone de **bloques lógicos**:
 | ----------- | --------------------------------------------------------- | --------------------------- |
 | `hosts:`    | Define sobre qué grupo de servidores se ejecutará el play | `hosts: webservers`         |
 | `become:`   | Permite ejecutar tareas como superusuario (sudo)          | `become: true`              |
+| `gather_facts:`| Recopila automáticamente información del sistema       | `gather_facts: true`        |
 | `tasks:`    | Lista de acciones a ejecutar                              | Ver ejemplo arriba          |
 | `vars:`     | Define variables internas del playbook                    | `vars: { pkg_name: nginx }` |
 | `handlers:` | Tareas que se ejecutan solo cuando se notifican           | `notify: Reiniciar Nginx`   |
+
+---
+**`gather_facts`**
+
+Por defecto, cuando ejecutas un playbook, Ansible **recopila automáticamente información del sistema** de cada host antes de ejecutar las tareas. Esta información se llama **facts** y contiene detalles como:
+
+- Nombre del sistema operativo (`ansible_distribution`)
+- Versión (`ansible_distribution_version`)
+- Arquitectura (`ansible_architecture`)
+- IPs, interfaces de red, CPU, memoria, etc.
+
+Esta recopilación se realiza con el módulo [`setup`](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_vars_facts.html#ansible-facts) y se activa automáticamente **porque `gather_facts: true` por defecto**.
+
+**Ejemplo de facts comunes:**
+
+```yaml
+ansible_distribution: Ubuntu
+ansible_distribution_version: "22.04"
+ansible_architecture: x86_64
+ansible_default_ipv4:
+  address: 192.168.1.10
+```
+
+**Cuándo poner `gather_facts: false`**
+
+- Si tu playbook no necesita información del sistema (por ejemplo, copia de archivos estáticos o instalación de paquetes conocidos)
+- Para **ahorrar tiempo**, sobre todo si gestionas muchos hosts
+- Para **evitar errores** en entornos donde la conexión no permite recopilar facts
+
+!!! info "Resumen"
+    - `gather_facts` es útil cuando necesitas datos dinámicos del host, pero **ponerlo a `false` mejora el rendimiento** de la ejecución 
+    - Está activado por defecto si no pones explicitamente `gather_facts: false`
 
 ---
 
@@ -142,7 +239,9 @@ localhost | CHANGED => {
 
 ---
 
-### 2. Crear el mismo resultado con un Playbook
+### 2. Crear Playbook con tareas extras
+
+> Un **playbook** nos permite ejecutar varias tareas de forma secuencial
 
 Archivo `webdemo.yml`:
 
@@ -150,7 +249,6 @@ Archivo `webdemo.yml`:
 ---
 - name: Crear estructura de demo web
   hosts: localhost
-  connection: local
   tasks:
     - name: Crear directorio de trabajo
       ansible.builtin.file:
