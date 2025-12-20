@@ -156,8 +156,9 @@ def finish(
 
 def version_callback(value: bool):
     if value:
-        from importlib.metadata import version
-        print('version :',version("lab"))
+        __version__ = "0.7.3"
+        print('Ansible101 Lab')
+        print('version :',__version__)
         raise typer.Exit()
 
 @app.callback()

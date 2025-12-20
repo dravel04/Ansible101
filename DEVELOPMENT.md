@@ -93,20 +93,25 @@ RUN pip install --no-cache-dir \
 ```
 
 ```shell
-podman run --rm \
+podman run --name lab-build -it \
   -v "$PWD:/src:Z" \
   -w /src \
   lab-build-ol8 \
   bash -c "
     python -m nuitka \
-      --standalone \
-      --onefile \
-      --static-libpython=no \
-      --include-data-dir=lab/infrastructure/containerfiles=lab/infrastructure/containerfiles \
-      lab/main.py \
-      --output-dir=/home/builder/build_output \
-      --output-filename=lab-cli
-  "
+    --standalone \
+    --onefile \
+    --static-libpython=no \
+    --include-distribution-metadata=lab \
+    --include-data-dir=lab/infrastructure/containerfiles=lab/infrastructure/containerfiles \
+    lab/main.py \
+    --output-dir=/home/builder/build_output \
+    --output-filename=lab-cli
+"
+```
+```shell
+podman cp lab-build:/home/builder/build_output/lab-cli lab && \
+podman rm -f lab-build
 ```
 
 <!-- Carpeta con binario y dependencias:
