@@ -120,7 +120,7 @@ Un **role** es una forma estructurada y reutilizable de empaquetar contenido de 
 | **`tasks/`** | **Flujo de Ejecución** | Contiene los archivos YAML (`main.yml`) que definen las **acciones** (tareas) que Ansible debe realizar en los *hosts* (p. ej., instalar paquetes, crear usuarios, copiar archivos). |
 | **`handlers/`** | **Manejo de Eventos** | Contiene los *handlers* (manejadores) que son **tareas que solo se ejecutan cuando son notificadas** (o *notified*) por una tarea en `tasks/`. Se usan generalmente para reiniciar servicios, lo cual solo debe hacerse si la configuración ha cambiado. |
 | **`vars/`** | **Variables por Defecto** | Almacena variables específicas para este *role* (en `main.yml`). Son variables que el *role* necesita, pero que **pueden ser sobrescritas** desde el *playbook* o el inventario. |
-| **`defaults/`** | **Valores Preestablecidos** | (Aunque no lo mencionaste, es crucial). Contiene variables (en `main.yml`) que establecen los **valores predeterminados** para el *role*. Tienen la *menor* prioridad, asegurando que el *role* siempre funcione con valores seguros si no se especifican otros. |
+| **`defaults/`** | **Valores Preestablecidos** | Contiene variables (en `main.yml`) que establecen los **valores predeterminados** para el *role*. Tienen la *menor* prioridad, asegurando que el *role* siempre funcione con valores seguros si no se especifican otros. |
 | **`templates/`** | **Archivos Dinámicos (Jinja2)** | Contiene plantillas de archivos (usualmente con extensión `.j2`) que se copian al *host* gestionado. Antes de copiarse, Ansible **reemplaza las variables** definidas en Jinja2 (`{{ variable }}`) con sus valores reales. |
 | **`files/`** | **Archivos Estáticos** | Contiene archivos estáticos que deben copiarse **tal cual** a los *hosts* gestionados. Se accede a ellos usando el módulo `copy` o `template`, pero no se procesan como plantillas. |
 | **`meta/`** | **Metadatos y Dependencias** | Contiene información sobre el *role* mismo, como su autor, licencia, plataformas compatibles, y, lo más importante, **las dependencias de otros *roles*** que deben ejecutarse antes que este. |
@@ -276,28 +276,7 @@ ansible-galaxy collection install ansible.posix
 ---
 
 ## ✍️ Ejemplo Práctico
-### 0. Requisitos
-- Python >= 3.10
-
-### 1. Instalar Ansible
-
-Crear un **virtual enviroment** de trabajo:
-```shell
-python -m venv venv
-source venv/bin/activate
-```
-
-Instalar **ansible-core**:
-```
-pip install ansible-core==2.16.14
-```
-
-Verifica la versión instalada:
-```bash
-ansible --version
-```
-
-### 2. Crear un Inventario Simple
+### 1. Crear un Inventario Simple
 
 Con tu editor de confianza, crea el archivo `inventory`:
 
@@ -313,7 +292,7 @@ inventory = ./inventory
 host_key_checking = False # no
 ```
 
-### 3. Validar configuración local
+### 2. Validar configuración local
 
 Lanzamos el siguiente comando:
 
@@ -357,23 +336,3 @@ localhost | SUCCESS => {
 !!! tip
     - Usa inventarios **por entorno** (dev, stage, prod) o **tecnología** (oracle, mongo)
     - Define un `ansible.cfg` por proyecto para mantener configuraciones aisladas
-
----
-
-## 📚 Ejercicio Propuesto
-
-Crea un entorno básico y verifica conectividad entre tu nodo de control y un servidor remoto.
-
-1. Instala Ansible.
-2. Configura un archivo `inventory` con **localhost** como host remoto
-3. Crea un playbook `check.yml` que:
-    - Use el módulo `ping`
-
-!!! tip
-    Si todo está bien configurado, deberías ver un mensaje de éxito similar a:
-    ```shell
-    localhost | SUCCESS => {
-        "changed": false,
-        "ping": "pong"
-    }
-    ```

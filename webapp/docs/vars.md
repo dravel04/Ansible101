@@ -55,7 +55,7 @@ Ansible permite definir variables en **muchos lugares**, según el contexto:
 | **Inventario**           | Archivo `inventory` o `group_vars/` / `host_vars/` | Define variables por host o grupo               | Ideal para información de infraestructura |
 | **Playbook**             | Dentro de `vars:` o `vars_files:`                  | `vars: { pkg_name: nginx }`                     | Variables locales al playbook             |
 | **Rol**                  | En `defaults/` o `vars/` del rol                   | `roles/webserver/defaults/main.yml`             | Prioridad distinta según carpeta          |
-| **Variables de entorno** | Exportadas desde el sistema                        | `export ANSIBLE_VAR=value`                      | Se usan con `lookup('env', 'VAR')`        |
+| **Variables de entorno** | Exportadas desde el sistema                        | `export ANSIBLE_VAR=value`                      | Se usan con `lookup('env', 'ANSIBLE_VAR')`        |
 | **Línea de comandos**    | Usando `-e` o `--extra-vars`                       | `ansible-playbook play.yml -e "pkg_name=nginx"` | Máxima prioridad                          |
 | **Facts del sistema**    | Recogidos automáticamente con `gather_facts`       | `ansible_hostname`, `ansible_distribution`      | Variables especiales del sistema remoto   |
 
@@ -147,7 +147,7 @@ Y el playbook `vars_priority.yml`:
 ---
 - name: Prioridades de variables
   hosts: localhost
-  connection: local
+  gather_facts: false
   vars:
     app_name: apache2
   tasks:

@@ -32,6 +32,88 @@ python -m nuitka \
   --output-filename=lab-cli
 ```
 
+### Compilación en contendor
+
+Para dar soporte a distro de linux antiguas con glibc >= 2.28, se compilará en una imagen de Oracle Linux 8.10
+```Dockerfile
+FROM oraclelinux:8.10
+
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
+# 1. Habilitar EPEL (necesario para patchelf) y dependencias de compilación
+RUN dnf -y install oracle-epel-release-el8 && \
+    dnf -y install \
+    gcc \
+    gcc-c++ \
+    make \
+    patchelf \
+    libffi-devel \
+    zlib-devel \
+    openssl-devel \
+    bzip2-devel \
+    xz-devel \
+    readline-devel \
+    sqlite-devel \
+    findutils \
+    which && \
+    dnf clean all
+
+# 2. Instalar Python 3.11 directamente (usando los nombres de tu búsqueda)
+RUN dnf install -y \
+    python3.11 \
+    python3.11-devel \
+    python3.11-pip \
+    python3.11-setuptools \
+    python3.11-wheel && \
+    dnf clean all
+
+# 3. Usuario builder
+RUN useradd -m builder
+USER builder
+WORKDIR /home/builder
+
+# 4. Virtualenv usando Python 3.11
+RUN python3.11 -m venv venv
+ENV PATH="/home/builder/venv/bin:$PATH"
+
+# 5. Instalación controlada de dependencias
+# Instalamos primero las herramientas base en el orden correcto
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir setuptools==80.1.0 wheel toml
+
+# Instalamos Nuitka y tus librerías de aplicación
+RUN pip install --no-cache-dir \
+    nuitka==2.7.14 \
+    typer==0.17.4 \
+    typing_extensions==4.15.0 \
+    rich==14.1.0 \
+    podman==5.6.0 \
+    paramiko==4.0.0
+```
+
+```shell
+podman run --name lab-build -it \
+  -v "$PWD:/src:Z" \
+  -w /src \
+  lab-build-ol8 \
+  bash -c "
+    python -m nuitka \
+    --standalone \
+    --onefile \
+    --static-libpython=no \
+    --include-distribution-metadata=lab \
+    --include-data-dir=lab/infrastructure/containerfiles=lab/infrastructure/containerfiles \
+    lab/main.py \
+    --output-dir=/home/builder/build_output \
+    --output-filename=lab-cli
+"
+```
+```shell
+podman cp lab-build:/home/builder/build_output/lab-cli lab && \
+podman rm -f lab-build
+```
+
 <!-- Carpeta con binario y dependencias:
 ```shell
 python -m nuitka \

@@ -5,6 +5,7 @@
 test.py
 .lab_config.json
 nuitka-crash-report*
+.python-version
 
 # Archivos de __pycache__
 __pycache__/
@@ -44,6 +45,7 @@ main.onefile-build
 # generated types
 webapp/hosts
 webapp/ansible.cfg
+webapp/site
 
 # dependencies
 node_modules/

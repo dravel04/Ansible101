@@ -154,6 +154,26 @@ def finish(
     notifier = ProgressNotifierAdapter()
     exercise.finish(notifier)
 
+def version_callback(value: bool):
+    if value:
+        __version__ = "0.7.3"
+        print('Ansible101 Lab')
+        print('version :',__version__)
+        raise typer.Exit()
+
+@app.callback()
+def root(
+    version: bool = typer.Option(
+        None,
+        "--version","-version",
+        callback=version_callback,
+        is_eager=True,
+        help="Muestra la version",
+    )
+):
+    pass
+
+
 
 if __name__ == '__main__':
     app()
