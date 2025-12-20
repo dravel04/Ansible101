@@ -45,6 +45,7 @@ main.onefile-build
 # generated types
 webapp/hosts
 webapp/ansible.cfg
+webapp/site
 
 # dependencies
 node_modules/
